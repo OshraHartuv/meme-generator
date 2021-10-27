@@ -18,13 +18,13 @@ var gMeme = {
   ],
 };
 
-function getUrlById(imgId){
-  var img  = gImgs.find((img) => {
-    return `${img.id}` === imgId;   
-  });
-  return img.url
+// function getUrlById(imgId){
+//   var img  = gImgs.find((img) => {
+//     return `${img.id}` === imgId;   
+//   });
+//   return img.url
 
-}
+// }
 
 // function getImgById(imgId){
 //  return  gImgs.find((img) => {
@@ -32,12 +32,12 @@ function getUrlById(imgId){
 //   });
 // }
 
-// function getUrlByMeme(meme){
-//   var img =  gImgs.find((img) => {
-//     return img.id === meme.selectedImgId;   
-//   });
-//   return img.url
-// }
+function getUrlByMeme(meme){
+  var img =  gImgs.find((img) => {
+    return img.id === meme.selectedImgId;   
+  });
+  return img.url
+}
 
 function getGmeme(){
   return gMeme
