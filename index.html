@@ -50,25 +50,23 @@
                 <div class="gallery-img 3" onclick=""></div> -->
             </div>       
 
-
-            <!-- height="300" width="50vh" -->
             <!-- CANVAS -->
             <div class="editor-container" style="display: none;">
                 <div class="canvas-container">
                     <canvas id="my-canvas"  onclick="" ></canvas>
                 </div>
                 <div class="editor-tools">
-                    <input class="meme-text" placeholder="Enter meme text" oninput="onChangeText(this)">
+                    <input class="meme-text" placeholder="Enter meme text" oninput="onTypeText(this)">
                     <div class="line-editors">
-                        <button>up</button>
+                        <button onclick="onTextUp()">up</button>
                         <button>down</button>
                         <button>arrows</button>
                         <button>+</button>
                         <button>delete</button>
                     </div>
                     <div class="text-editors">
-                        <button>a+</button>
-                        <button>a-</button>
+                        <button onclick="onIncreaseFont()">a+</button>
+                        <button onclick="onDecreaseFont()">a-</button>
                         <button>r</button>
                         <button>l</button>
                         <select name="font-family" id="font-family">

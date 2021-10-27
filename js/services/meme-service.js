@@ -26,7 +26,6 @@ var gMemes = [
 
 var gMeme;
 
-//
 
 function getUrlByMeme(meme) {
   var img = gImgs.find((img) => {
@@ -35,7 +34,7 @@ function getUrlByMeme(meme) {
   return img.url;
 }
 
-function getGmeme() {
+function getMeme() {
   return gMeme;
 }
 
