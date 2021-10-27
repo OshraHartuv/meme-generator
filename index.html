@@ -9,7 +9,7 @@
     <title>Meme Generator</title>
 </head>
 
-<body>
+<body onload="onInit()">
 
     <div class="main-layout">
         <header>
@@ -47,10 +47,10 @@
                     <div class="gallery-img 1" onclick=""><img src="img/2.jpg"></div> -->
                 <!-- <div class="gallery-img 2" onclick=""></div>
                         <div class="gallery-img 3" onclick=""></div> -->
-                <div class="gallery-img 1" onclick=""></div>
-                <div class="gallery-img 2" onclick=""></div>
+                <div class="gallery-img 1" onclick="onOpenCanvas(this)"  id='1'></div>
+                <!-- <div class="gallery-img 2" onclick=""></div>
                 <div class="gallery-img 3" onclick=""></div>
-                <div class="gallery-img 3" onclick=""></div>
+                <div class="gallery-img 3" onclick=""></div> -->
             </div>
 
             <!-- <div class="about-container">
@@ -67,11 +67,15 @@
                     </div>
                 </div> -->
 
+            <div class="canvas-container">
+                <canvas id="my-canvas" height="300" width="300" onclick=""></canvas>
+
         </main>
 
     </div>
 
 
+    <script src="js/services/meme-service.js"></script>
     <script src="js/controller.js"></script>
 </body>
 

@@ -69,6 +69,18 @@ body{
   object-fit: cover;
 }
 
+/* CANVAS */
+
+.canvas-container{
+    outline: 1px solid black;
+    height: 400px;
+    width: 400px;
+}
+
+.my-canvas{
+    outline: 1px solid red;
+}
+
 
 /* ABOUT */
 
