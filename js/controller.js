@@ -8,9 +8,8 @@ var gCtx;
 function onInit() {
   gElCanvas = document.getElementById('my-canvas');
   gCtx = gElCanvas.getContext('2d');
-  gCtx.font = '60px impact';
   addListeners();
-  resizeCanvas();
+  //   resizeCanvas();
 }
 
 function onChangeText(elTextInput) {
@@ -30,7 +29,7 @@ function onOpenEditor(elImg) {
   elGallery.style.display = 'none';
   updateGmeme(elImg.id);
   var meme = getGmeme();
-  renderCanvas(meme);
+  resizeCanvas();
 }
 
 function drawTextOnCanvas() {
@@ -39,8 +38,7 @@ function drawTextOnCanvas() {
   gCtx.font = '40px impact';
   gCtx.lineWidth = 2;
   var meme = getGmeme();
-  //   CHANGE TO ALL LINES
-  //   GET MEME LINES
+  //   CHANGE TO ALL LINES + GET MEME LINES
   var text = meme.lines[0].txt;
   var elTextInput = document.querySelector('.meme-text');
   elTextInput.value = `${text}`;
@@ -52,27 +50,30 @@ function renderCanvas(meme) {
   var url = getUrlByMeme(meme);
   var img = new Image();
   img.src = `../${url}`;
-  img.style.position = 'absolute';
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     drawTextOnCanvas();
   };
-  resizeCanvas();
+  //   resizeCanvas();
 }
 
 function resizeCanvas() {
+  console.log('resize');
   const elContainer = document.querySelector('.canvas-container');
+  //   console.log(elContainer.offsetWidth);
+  //   console.log(elContainer.offsetHeight);
   gElCanvas.width = elContainer.offsetWidth;
   gElCanvas.height = elContainer.offsetHeight;
+  //   console.log(gElCanvas.offsetWidth);
+  //   console.log(gElCanvas.offsetHeight);
+  var meme = getGmeme();
+  renderCanvas(meme);
 }
 
 function addListeners() {
-  addMouseListeners();
-  addTouchListeners();
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    // renderCanvas();
-  });
+  //   addMouseListeners();
+  //   addTouchListeners();
+  window.addEventListener('resize', resizeCanvas);
 }
 
 function addMouseListeners() {
