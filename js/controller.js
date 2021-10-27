@@ -14,33 +14,32 @@ function onInit() {
 
 function onTextDown() {
   if (gLine.y + 20 <= gElCanvas.offsetHeight) {
-    updateLine(gLine, 'textDown')
+    updateLine(gLine, 'textDown');
     renderCanvas();
   }
 }
 
 function onTextUp() {
   if (gLine.y - gLine.size >= 10) {
-    updateLine(gLine,'textUp')
+    updateLine(gLine, 'textUp');
     renderCanvas();
-}
+  }
 }
 
 function onDecreaseFont() {
-    if (gLine.size > 10) {
-      updateLine(gLine,'decreaseFont')
-      renderCanvas();
-    }
+  if (gLine.size > 10) {
+    updateLine(gLine, 'decreaseFont');
+    renderCanvas();
+  }
 }
 
 function onIncreaseFont() {
-    updateLine(gLine,'increaseFont');
-    renderCanvas();
+  updateLine(gLine, 'increaseFont');
+  renderCanvas();
 }
 
 function onTypeText(elTextInput) {
-    updateLine(gLine,'typeText',elTextInput.value)
-//   gLine.txt = elTextInput.value;
+  updateLine(gLine, 'typeText', elTextInput.value);
   renderCanvas();
 }
 

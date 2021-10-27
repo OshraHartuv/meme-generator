@@ -52,6 +52,7 @@ var gMemes = [
 var gMeme;
 
 function updateLine(line, key,textInput = null) {
+  console.log(gMeme);
   switch (key) {
     case 'textDown':
       line.y += 10
@@ -71,7 +72,7 @@ function updateLine(line, key,textInput = null) {
       break;
     
     case 'typeText':
-      line.text  = textInput;
+      line.txt  = `${textInput}`;
       break;
     
   }
