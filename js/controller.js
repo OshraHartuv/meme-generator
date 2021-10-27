@@ -54,20 +54,26 @@ function renderCanvas(meme) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     drawTextOnCanvas();
   };
-  //   resizeCanvas();
 }
 
 function resizeCanvas() {
   console.log('resize');
-  const elContainer = document.querySelector('.canvas-container');
-  //   console.log(elContainer.offsetWidth);
-  //   console.log(elContainer.offsetHeight);
-  gElCanvas.width = elContainer.offsetWidth;
-  gElCanvas.height = elContainer.offsetHeight;
-  //   console.log(gElCanvas.offsetWidth);
-  //   console.log(gElCanvas.offsetHeight);
+  const elCanvasContainer = document.querySelector('.canvas-container');
+  const elEditorContainer = document.querySelector('.editor-container');
+  //   elEditorContainer.style.height = '100vw';
+  //   elEditorContainer.style.width = '100vw';
+  elEditorContainer.width = elCanvasContainer.offsetWidth;
+  elEditorContainer.height = elCanvasContainer.offsetHeight;
+  gElCanvas.width = elCanvasContainer.offsetWidth;
+  gElCanvas.height = elCanvasContainer.offsetHeight;
+  console.log(gElCanvas.width);
   var meme = getGmeme();
   renderCanvas(meme);
+  //   gElCanvas.width = elContainer.offsetWidth;
+  //   gElCanvas.height = elContainer.offsetHeight;
+  //   gElCanvas.height = elContainer.offsetHeight;
+  //   elContainer.style.height = '50vw';
+  //   elContainer.style.width = '50vw';
 }
 
 function addListeners() {
