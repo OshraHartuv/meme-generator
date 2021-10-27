@@ -71,14 +71,37 @@ body{
 
 /* CANVAS */
 
+.editor-container{
+    display: flex;
+    outline: 1px solid red;
+    
+}
+
 .canvas-container{
     outline: 1px solid black;
     height: 400px;
-    width: 400px;
+    width: 100%;
+    /* position: relative; */
 }
 
-.my-canvas{
-    outline: 1px solid red;
+canvas{
+    outline: 1px solid blue;
+    /* position: absolute; */
+    /* background-image: url('../img/1.jpg');
+    background-size: cover;
+    background-position: center center; */
+}
+
+.text-canvas{
+    position: relative;
+}
+
+.editor-tools{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
