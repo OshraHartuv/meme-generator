@@ -22,7 +22,7 @@ var gMemes = [
         'font-family': 'impact',
         x: 10,
         y: 50,
-        xEnd: 0,
+        width: 0,
       },
       {
         txt: 'you',
@@ -33,7 +33,7 @@ var gMemes = [
         'font-family': 'impact',
         x: 10,
         y: 'init',
-        xEnd: 0,
+        width: 0,
       },
     ],
   },
@@ -51,7 +51,7 @@ var gMemes = [
         'font-family': 'impact',
         x: 10,
         y: 50,
-        xEnd: 0,
+        width: 0,
       },
       {
         txt: 'I love falafel',
@@ -61,7 +61,7 @@ var gMemes = [
         align: 'left',
         'font-family': 'impact',
         x: 10,
-        xEnd: 0,
+        width: 0,
       },
     ],
   },
@@ -71,35 +71,42 @@ var gMeme;
 
 function updateSecondRowPos(value) {
   gMeme.lines[1].y = value;
-  // line.y = value
 }
 
-function  updateLinesSize(CanvasWidth, CanvasHeight) {
-  gMeme.lines.forEach(line =>{
-    var lineWidth = line.xEnd- line.x
-    if (line.xEnd > CanvasWidth -10) {
-      line.xEnd = CanvasWidth -10
-      line.x = lineWidth + line.xEnd
+function updateLinesSize(CanvasWidth, CanvasHeight) {
+  gMeme.lines.forEach((line) => {
+    console.log('line.x', line.x);
+    if (line.x + line.width > CanvasWidth - 10) {
+      line.x = CanvasWidth - line.width - 10;
     }
-    if (line.y + line.size > CanvasHeight - 10){
-      line.y = CanvasHeight + 10 + line.size
+    if (line.width + 20 > CanvasWidth) {
+      line.size -= 10;
+      line.x = 10;
+      renderCanvas();
+      updateLinesSize(CanvasWidth, CanvasHeight);
     }
-  })
+    if (line.y > CanvasHeight - 10) {
+      line.y = CanvasHeight - 10;
+      updateLinesSize(CanvasWidth, CanvasHeight);
+    }
+    if (line.size > CanvasHeight) {
+      line.size -= 10;
+      renderCanvas();
+    }
+  });
 }
 
 function updateLine(key, value, idx = null) {
   if (gMeme.selectedLineIdx === null) return;
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
-  var lineWidth = line.xEnd - line.x;
-  // console.log(line);
   switch (key) {
     case 'textDown':
-      line.y += line.y + 20 <= value ? 10 : 0;
+      line.y += line.y + 15 <= value ? 5 : 0;
       break;
 
     case 'textUp':
-      line.y -= line.y - line.size >= 10 ? 10 : 0;
+      line.y -= line.y - line.size >= 5 ? 5 : 0;
       break;
 
     case 'decreaseFont':
@@ -115,13 +122,8 @@ function updateLine(key, value, idx = null) {
       line.txt = `${value}`;
       break;
 
-    case 'xEnd':
-      // line.width = value;
-      // if (line.xEnd > value - 10) {
-      //   line.xEnd = value - 10;
-      //   line.x = value - lineWidth - 10;
-      // } else
-       line.xEnd = value + line.x;
+    case 'width':
+      line.width = value;
       break;
 
     case 'font-family':
@@ -137,38 +139,36 @@ function updateLine(key, value, idx = null) {
       break;
 
     case 'align-left':
-      if (line.x <= 10) return;
+      if (line.x = 10) return;
       line.x = 10;
-      line.xEnd = lineWidth + 10;
       line.align = 'left';
       break;
 
     case 'align-center':
       line.align = 'center';
-      line.x = (value - lineWidth) / 2;
-      line.xEnd = lineWidth + line.x;
+      line.x = (value - line.width) / 2;
       break;
 
     case 'align-right':
       console.log(value);
-      // var width = line.xEnd - line.x;
-      if (lineWidth >= value - 20) return;
+      if (line.width >= value - 20) return;
       line.align = 'right';
-      line.xEnd = value - 10;
-      line.x = line.xEnd - lineWidth;
+      line.x = value - 10 - line.width;
       console.log(line);
       break;
+
+    case 'moveX':
+      line.x = value - 5 - line.width;
   }
 }
 
 function getLineArea() {
-  // debugger
   if (gMeme.selectedLineIdx === null) return;
   var line = gMeme.lines[gMeme.selectedLineIdx];
   return {
     x: line.x - 3,
-    y: line.y - line.size,
-    width: line.xEnd - line.x + 6,
+    y: line.y - line.size + 3,
+    width: line.width + 5,
     height: line.size + 3,
   };
 }

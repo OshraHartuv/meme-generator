@@ -27,8 +27,11 @@ function onSwitchLines() {
 
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
-  // if (key === 'typeText')  updateLine('xEnd', gCtx.measureText(text).width,idx);
-  else if (key === 'align-center' || key === 'align-right') value = gElCanvas.offsetWidth;
+  else if (
+    key === 'align-center' ||
+    key === 'align-right'
+  )
+    value = gElCanvas.offsetWidth;
   updateLine(key, value);
   renderCanvas();
 }
@@ -46,41 +49,42 @@ function onOpenEditor(elImg) {
 }
 
 // CHANGE TEXT
-function changeTextOnCanvas(value = null) {
+function changeTextOnCanvas() {
   var meme = getMeme();
-  console.log(meme.selectedLineIdx);
   gCtx.lineWidth = 2;
   var elTextInput = document.querySelector('.meme-text');
   meme.lines.forEach((line, idx) => {
     var text = line.txt;
-    gCtx.strokeStyle = `${line.strokeColor}`;;
+    gCtx.strokeStyle = `${line.strokeColor}`;
     gCtx.fillStyle = `${line.fillColor}`;
     gCtx.font = `${line.size}px ${line['font-family']}`;
+    updateLine('width', gCtx.measureText(text).width, idx);
     if (idx === meme.selectedLineIdx) {
       elTextInput.value = `${text}`;
-    } 
-    else if (line.y === 'init') {
+      // text is out of canvas (type text)
+      if (line.width > gElCanvas.offsetWidth - 10) {
+        updateLine('decreaseFont', 10, idx);
+        renderCanvas();
+        return;
+      }
+      else if (line.x + line.width > gElCanvas.offsetWidth - 10) {
+        updateLine('moveX', gElCanvas.offsetWidth);
+        if (line.x < 10) {
+          updateLine('align-left');
+          renderCanvas()
+          return
+        }
+      }
+    } else if (line.y === 'init') {
       updateSecondRowPos(gElCanvas.offsetWidth - 10);
       line = getMeme().lines[1];
-    } 
-    else if (meme.selectedLineIdx === null) {
+    } else if (meme.selectedLineIdx === null) {
       elTextInput.placeholder = 'no line selected';
       elTextInput.value = '';
-    }
-    // text is out of canvas (resize or type text)
-    updateLine('xEnd', gCtx.measureText(text).width,idx);
-    if (line.xEnd - line.x > gElCanvas.offsetWidth) {
-      updateLine('decreaseFont', 5, idx);
-      renderCanvas();
-    }
-    if (line.y > gElCanvas.offsetHeight) {
-      updateLine('textUp', '' , idx);
-      renderCanvas();
     }
     gCtx.fillText(`${text}`, line.x, line.y);
     gCtx.strokeText(`${text}`, line.x, line.y);
   });
-
 }
 
 // RENDER
@@ -97,8 +101,9 @@ function renderCanvas() {
 }
 
 // RESIZE
+
 function resizeCanvas() {
-  console.log('resize');
+  // console.log('resize');
   if (!getMeme()) return;
   const elCanvasContainer = document.querySelector('.canvas-container');
   const elEditorContainer = document.querySelector('.editor-container');
@@ -106,7 +111,7 @@ function resizeCanvas() {
   elEditorContainer.height = elCanvasContainer.offsetHeight;
   gElCanvas.width = elCanvasContainer.offsetWidth;
   gElCanvas.height = elCanvasContainer.offsetHeight;
-  // updateLinesSize(gElCanvas.width, gElCanvas.height)
+  updateLinesSize(gElCanvas.width, gElCanvas.height);
   renderCanvas();
 }
 
