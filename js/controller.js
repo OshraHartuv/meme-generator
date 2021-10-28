@@ -94,7 +94,7 @@ function renderCanvas() {
   var meme = getMeme();
   var url = getUrlByMeme(meme);
   var img = new Image();
-  img.src = `../${url}`;
+  img.src = `${url}`;
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     changeTextOnCanvas();
