@@ -10,16 +10,17 @@ function onInit() {
 }
 
 function drawLineArea() {
-  var lineArea = getLineArea()
-  gCtx.beginPath()
-  gCtx.strokeStyle = 'white'
-  gCtx.rect(lineArea.x,lineArea.y,lineArea.width, lineArea.height)
-  gCtx.stroke()
+  if (getLineArea() === undefined) return;
+  var lineArea = getLineArea();
+  gCtx.beginPath();
+  gCtx.strokeStyle = 'white';
+  gCtx.rect(lineArea.x, lineArea.y, lineArea.width, lineArea.height);
+  gCtx.stroke();
 }
 
 function onSwitchLines() {
-  updateSelectedLineIdx()
-  renderCanvas()
+  updateSelectedLineIdx();
+  renderCanvas();
 }
 
 //UPDATE LINE
@@ -27,10 +28,8 @@ function onSwitchLines() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
-  // updateLineArea()
   renderCanvas();
 }
-
 
 // FIRST OPEN
 function onOpenEditor(elImg) {
@@ -44,32 +43,37 @@ function onOpenEditor(elImg) {
   resizeCanvas();
 }
 
-
 // CHANGE TEXT
 function changeTextOnCanvas() {
+  var meme = getMeme();
+  console.log(meme.selectedLineIdx);
   gCtx.strokeStyle = 'black';
   gCtx.fillStyle = 'white';
   gCtx.lineWidth = 2;
-  var meme = getMeme();
-  // var lineIdx = meme.selectedLineIdx;
+  var elTextInput = document.querySelector('.meme-text');
   meme.lines.forEach((line, idx) => {
     var text = line.txt;
     gCtx.font = `${line.size}px impact`;
     if (idx === meme.selectedLineIdx) {
-      var elTextInput = document.querySelector('.meme-text');
       elTextInput.value = `${text}`;
-      updateLine('xEnd', gCtx.measureText(text).width);
-      if (line.xEnd > gElCanvas.offsetWidth) {
-        updateLine('decreaseFont', 5);
-        renderCanvas();
-      }
-    }
-    // var lineXEnd = updateLine('width', gCtx.measureText(text).width,idx);
+    } 
     else if (line.y === 'init') {
       updateSecondRowPos(gElCanvas.offsetWidth - 10);
-      line = getMeme().lines[1]
-      // updateSelectedLineIdx(0)
-      // line.y = meme.lines[1].y
+      line = getMeme().lines[1];
+    } 
+    else if (meme.selectedLineIdx === null) {
+      elTextInput.placeholder = 'no line selected';
+      elTextInput.value = '';
+    }
+    // text is out of canvas (resize or type text)
+    updateLine('xEnd', gCtx.measureText(text).width,idx);
+    if (line.xEnd > gElCanvas.offsetWidth) {
+      updateLine('decreaseFont', 5, idx);
+      renderCanvas();
+    }
+    if (line.y > gElCanvas.offsetHeight) {
+      updateLine('textUp', '' , idx);
+      renderCanvas();
     }
     gCtx.fillText(`${text}`, line.x, line.y);
     gCtx.strokeText(`${text}`, line.x, line.y);
@@ -85,13 +89,14 @@ function renderCanvas() {
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     changeTextOnCanvas();
-    drawLineArea()
+    drawLineArea();
   };
 }
 
 // RESIZE
 function resizeCanvas() {
   console.log('resize');
+  if (!getMeme()) return;
   const elCanvasContainer = document.querySelector('.canvas-container');
   const elEditorContainer = document.querySelector('.editor-container');
   elEditorContainer.width = elCanvasContainer.offsetWidth;
@@ -137,57 +142,67 @@ function addTouchListeners() {
   gElCanvas.addEventListener('touchend', onUp);
 }
 
+// DOWNLOAD
+
 function downloadImg(elLink) {
-  const data = gElCanvas.toDataURL();
-  elLink.href = data;
-  elLink.download = 'name';
+  // debugger
+  // window.removeEventListener('resize', resizeCanvas)
+  var meme = getMeme();
+  // meme.isExport = true
+  // updateSelectedLineIdx('none');
+  renderCanvas();
+  // elLink = document.querySelector('.btn');
+  // const data = gElCanvas.toDataURL();
+  // elLink.href = data;
+  // elLink.download = 'my-meme';
+  // window.addEventListener('resize', resizeCanvas);
 }
 
 // function drawCanvas(meme) {
-  //   gCtx.strokeStyle = 'black';
-  //   gCtx.fillStyle = 'white';
-  //   gCtx.font = `20px impact`;
-  //   gCtx.lineWidth = 2;
-  //   meme.lines.forEach((line, idx) => {
-    //     var text = line.txt;
-    //     if (idx === 0) {
-      //       var elTextInput = document.querySelector('.meme-text');
-      //       elTextInput.value = `${text}`;
-      //       gLineIdx = 0;
-      //       gLine = line;
-      //     } else line.y = gElCanvas.offsetWidth - 10;
-      //     line.width = gCtx.measureText(text).width;
-      //     gCtx.fillText(`${text}`, line.x, line.y);
-      //     gCtx.strokeText(`${text}`, line.x, line.y);
-      //   });
-      // }
-      // function onTextDown() {
-      //   // if (gLine.y + 20 <= gElCanvas.offsetHeight) {
-      //     updateLine('textDown', gElCanvas.offsetHeight);
-      //     renderCanvas();
-      //   // }
-      // }
-      
-      // function onTextUp() {
-      //   // if (gLine.y - gLine.size >= 10) {
-      //     updateLine('textUp');
-      //     renderCanvas();
-      //   // }
-      // }
-      
-      // function onDecreaseFont() {
-      //   // if (gLine.size > 10) {
-      //     updateLine('decreaseFont');
-      //     renderCanvas();
-      //   // }
-      // }
-      
-      // function onIncreaseFont() {
-      //   updateLine('increaseFont');
-      //   renderCanvas();
-      // }
-      
-      // function onTypeText(elTextInput) {
-      //   updateLine('typeText', elTextInput.value);
-      //   renderCanvas();
-      // }
+//   gCtx.strokeStyle = 'black';
+//   gCtx.fillStyle = 'white';
+//   gCtx.font = `20px impact`;
+//   gCtx.lineWidth = 2;
+//   meme.lines.forEach((line, idx) => {
+//     var text = line.txt;
+//     if (idx === 0) {
+//       var elTextInput = document.querySelector('.meme-text');
+//       elTextInput.value = `${text}`;
+//       gLineIdx = 0;
+//       gLine = line;
+//     } else line.y = gElCanvas.offsetWidth - 10;
+//     line.width = gCtx.measureText(text).width;
+//     gCtx.fillText(`${text}`, line.x, line.y);
+//     gCtx.strokeText(`${text}`, line.x, line.y);
+//   });
+// }
+// function onTextDown() {
+//   // if (gLine.y + 20 <= gElCanvas.offsetHeight) {
+//     updateLine('textDown', gElCanvas.offsetHeight);
+//     renderCanvas();
+//   // }
+// }
+
+// function onTextUp() {
+//   // if (gLine.y - gLine.size >= 10) {
+//     updateLine('textUp');
+//     renderCanvas();
+//   // }
+// }
+
+// function onDecreaseFont() {
+//   // if (gLine.size > 10) {
+//     updateLine('decreaseFont');
+//     renderCanvas();
+//   // }
+// }
+
+// function onIncreaseFont() {
+//   updateLine('increaseFont');
+//   renderCanvas();
+// }
+
+// function onTypeText(elTextInput) {
+//   updateLine('typeText', elTextInput.value);
+//   renderCanvas();
+// }

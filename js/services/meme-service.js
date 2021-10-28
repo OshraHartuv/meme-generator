@@ -11,6 +11,7 @@ var gMemes = [
   {
     selectedImgId: 1,
     selectedLineIdx: 0,
+    isExport: false,
     lines: [
       {
         txt: 'I know ',
@@ -35,6 +36,7 @@ var gMemes = [
   {
     selectedImgId: 2,
     selectedLineIdx: 0,
+    isExport: false,
     lines: [
       {
         txt: 'I never eat Falafel',
@@ -57,6 +59,7 @@ function updateSecondRowPos(value) {
 }
 
 function updateLine(key, value, idx = null) {
+  if (gMeme.selectedLineIdx === null) return
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
   // console.log(line);
@@ -86,19 +89,12 @@ function updateLine(key, value, idx = null) {
       // line.width = value;
       line.xEnd = value + line.x;
       break;
-
-    // case 'width':
-    //   // line.width = value;
-    //   line.Xend = value + line.x;
-    // return line.width + line.x;
-
-    // case 'initY':
-    //   line.y = value;
-    //   break;
   }
 }
 
 function getLineArea() {
+  // debugger
+  if (gMeme.selectedLineIdx === null) return;
   var line = gMeme.lines[gMeme.selectedLineIdx];
   return {
     x: line.x - 3,
@@ -108,12 +104,13 @@ function getLineArea() {
   };
 }
 
-function updateSelectedLineIdx(idx = null) {
-  if (idx) gMeme.selectedLineIdx = idx;
-  else if (gMeme.lines.length > 1) {
-    gMeme.selectedLineIdx += gMeme.selectedLineIdx === 0 ? 1 : -1;
+function updateSelectedLineIdx(value = null) {
+  if (value === 'none') {gMeme.selectedLineIdx = null
+  console.log(gMeme.selectedLineIdx);}
+  else if (gMeme.selectedLineIdx === null || gMeme.selectedLineIdx === gMeme.lines.length -1 || gMeme.lines.length  === 1) gMeme.selectedLineIdx = 0
+  else {
+    gMeme.selectedLineIdx += 1;
   }
-  // updateLineArea()
 }
 
 function getUrlByMeme(meme) {
