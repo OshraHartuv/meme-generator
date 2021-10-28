@@ -27,6 +27,8 @@ function onSwitchLines() {
 
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
+  // if (key === 'typeText')  updateLine('xEnd', gCtx.measureText(text).width,idx);
+  else if (key === 'align-center' || key === 'align-right') value = gElCanvas.offsetWidth;
   updateLine(key, value);
   renderCanvas();
 }
@@ -44,16 +46,16 @@ function onOpenEditor(elImg) {
 }
 
 // CHANGE TEXT
-function changeTextOnCanvas() {
+function changeTextOnCanvas(value = null) {
   var meme = getMeme();
   console.log(meme.selectedLineIdx);
-  gCtx.strokeStyle = 'black';
-  gCtx.fillStyle = 'white';
   gCtx.lineWidth = 2;
   var elTextInput = document.querySelector('.meme-text');
   meme.lines.forEach((line, idx) => {
     var text = line.txt;
-    gCtx.font = `${line.size}px impact`;
+    gCtx.strokeStyle = `${line.strokeColor}`;;
+    gCtx.fillStyle = `${line.fillColor}`;
+    gCtx.font = `${line.size}px ${line['font-family']}`;
     if (idx === meme.selectedLineIdx) {
       elTextInput.value = `${text}`;
     } 
@@ -67,7 +69,7 @@ function changeTextOnCanvas() {
     }
     // text is out of canvas (resize or type text)
     updateLine('xEnd', gCtx.measureText(text).width,idx);
-    if (line.xEnd > gElCanvas.offsetWidth) {
+    if (line.xEnd - line.x > gElCanvas.offsetWidth) {
       updateLine('decreaseFont', 5, idx);
       renderCanvas();
     }

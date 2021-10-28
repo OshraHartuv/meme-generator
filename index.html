@@ -51,7 +51,7 @@
                 <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
                 <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
                 <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
-                <!-- <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div> -->
+                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
                 
             </div>
         </div>
@@ -73,14 +73,16 @@
                 <div class="text-editors">
                     <button onclick="onUpdateLine('increaseFont')">a+</button>
                     <button onclick="onUpdateLine('decreaseFont',10)">a-</button>
-                    <button>r</button>
-                    <button>l</button>
-                    <select name="font-family" id="font-family">
-                        <option value="impact">Impact</option>
+                    <button onclick="onUpdateLine('align-left')">l</button>
+                    <button onclick="onUpdateLine('align-center')">c</button>
+                    <button onclick="onUpdateLine('align-right')">r</button>
+                    <select name="font-family" id="font-family" onchange="onUpdateLine('font-family',this.value)">
+                        <option value="" disabled >font-family</option>
+                        <option value="impact" >Impact</option>
                         <option value="Ariel">Ariel</option>
                     </select>
-                    <input type="color" class="stroke-color">
-                    <input type="color" class="font-color">
+                    <input type="color" class="stroke-color" onchange="onUpdateLine('stroke-color',this.value)">
+                    <input type="color" class="fill-color" value="#ffffff" onchange="onUpdateLine('fill-color',this.value)">
                 </div>
                 <div class="stickers"></div>
                 <div class="upload-services">

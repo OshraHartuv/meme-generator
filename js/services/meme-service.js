@@ -11,22 +11,26 @@ var gMemes = [
   {
     selectedImgId: 1,
     selectedLineIdx: 0,
-    isExport: false,
+    // isExport: false,
     lines: [
       {
-        txt: 'I know ',
+        txt: 'I know',
         size: 20,
+        fillColor: 'white',
+        strokeColor: 'black',
         align: 'left',
-        color: 'red',
+        'font-family': 'impact',
         x: 10,
         y: 50,
         xEnd: 0,
       },
       {
-        txt: 'nothing',
+        txt: 'you',
         size: 20,
+        fillColor: 'white',
+        strokeColor: 'black',
         align: 'left',
-        color: 'red',
+        'font-family': 'impact',
         x: 10,
         y: 'init',
         xEnd: 0,
@@ -36,15 +40,27 @@ var gMemes = [
   {
     selectedImgId: 2,
     selectedLineIdx: 0,
-    isExport: false,
+    // isExport: false,
     lines: [
       {
         txt: 'I never eat Falafel',
         size: 20,
+        fillColor: 'white',
+        strokeColor: 'black',
         align: 'left',
-        color: 'red',
+        'font-family': 'impact',
         x: 10,
         y: 50,
+        xEnd: 0,
+      },
+      {
+        txt: 'I love falafel',
+        size: 20,
+        fillColor: 'white',
+        strokeColor: 'black',
+        align: 'left',
+        'font-family': 'impact',
+        x: 10,
         xEnd: 0,
       },
     ],
@@ -59,9 +75,10 @@ function updateSecondRowPos(value) {
 }
 
 function updateLine(key, value, idx = null) {
-  if (gMeme.selectedLineIdx === null) return
+  if (gMeme.selectedLineIdx === null) return;
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
+  var lineWidth = line.xEnd - line.x;
   // console.log(line);
   switch (key) {
     case 'textDown':
@@ -87,7 +104,46 @@ function updateLine(key, value, idx = null) {
 
     case 'xEnd':
       // line.width = value;
-      line.xEnd = value + line.x;
+      // if (line.xEnd > value - 10) {
+      //   line.xEnd = value - 10;
+      //   line.x = value - lineWidth - 10;
+      // } else
+       line.xEnd = value + line.x;
+      break;
+
+    case 'font-family':
+      line['font-family'] = value;
+      break;
+
+    case 'fill-color':
+      line.fillColor = value;
+      break;
+
+    case 'stroke-color':
+      line.strokeColor = value;
+      break;
+
+    case 'align-left':
+      if (line.x <= 10) return;
+      line.x = 10;
+      line.xEnd = lineWidth + 10;
+      line.align = 'left';
+      break;
+
+    case 'align-center':
+      line.align = 'center';
+      line.x = (value - lineWidth) / 2;
+      line.xEnd = lineWidth + line.x;
+      break;
+
+    case 'align-right':
+      console.log(value);
+      // var width = line.xEnd - line.x;
+      if (lineWidth >= value - 20) return;
+      line.align = 'right';
+      line.xEnd = value - 10;
+      line.x = line.xEnd - lineWidth;
+      console.log(line);
       break;
   }
 }
@@ -105,9 +161,15 @@ function getLineArea() {
 }
 
 function updateSelectedLineIdx(value = null) {
-  if (value === 'none') {gMeme.selectedLineIdx = null
-  console.log(gMeme.selectedLineIdx);}
-  else if (gMeme.selectedLineIdx === null || gMeme.selectedLineIdx === gMeme.lines.length -1 || gMeme.lines.length  === 1) gMeme.selectedLineIdx = 0
+  if (value === 'none') {
+    gMeme.selectedLineIdx = null;
+    console.log(gMeme.selectedLineIdx);
+  } else if (
+    gMeme.selectedLineIdx === null ||
+    gMeme.selectedLineIdx === gMeme.lines.length - 1 ||
+    gMeme.lines.length === 1
+  )
+    gMeme.selectedLineIdx = 0;
   else {
     gMeme.selectedLineIdx += 1;
   }
