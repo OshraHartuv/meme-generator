@@ -98,8 +98,8 @@ body {
 }
 
 .gallery-img:hover{
-  opacity: 1;
-  transition: 0.5s;
+  /* opacity: 1;
+  transition: 0.5s; */
 }
 
 .img-1 {

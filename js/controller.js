@@ -75,10 +75,12 @@ function changeTextOnCanvas() {
           return
         }
       }
-    } else if (line.y === 'init') {
+    }
+    else if (line.y === 'init') {
       updateSecondRowPos(gElCanvas.offsetWidth - 10);
       line = getMeme().lines[1];
-    } else if (meme.selectedLineIdx === null) {
+    }
+    else if (meme.selectedLineIdx === null) {
       elTextInput.placeholder = 'no line selected';
       elTextInput.value = '';
     }
