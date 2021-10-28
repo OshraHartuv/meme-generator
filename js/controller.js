@@ -9,6 +9,14 @@ function onInit() {
   addListeners();
 }
 
+function drawLineArea() {
+  var lineArea = getLineArea()
+  gCtx.beginPath()
+  gCtx.strokeStyle = 'white'
+  gCtx.rect(lineArea.x,lineArea.y,lineArea.width, lineArea.height)
+  gCtx.stroke()
+}
+
 function onSwitchLines() {
   updateSelectedLineIdx()
   renderCanvas()
@@ -19,6 +27,7 @@ function onSwitchLines() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
+  // updateLineArea()
   renderCanvas();
 }
 
@@ -53,14 +62,14 @@ function changeTextOnCanvas() {
       if (line.xEnd > gElCanvas.offsetWidth) {
         updateLine('decreaseFont', 5);
         renderCanvas();
-        return;
       }
     }
     // var lineXEnd = updateLine('width', gCtx.measureText(text).width,idx);
     else if (line.y === 'init') {
-      updateLine('initY', gElCanvas.offsetWidth - 10,idx);
-      meme = getMeme()
-      line.y = meme.lines[1].y
+      updateSecondRowPos(gElCanvas.offsetWidth - 10);
+      line = getMeme().lines[1]
+      // updateSelectedLineIdx(0)
+      // line.y = meme.lines[1].y
     }
     gCtx.fillText(`${text}`, line.x, line.y);
     gCtx.strokeText(`${text}`, line.x, line.y);
@@ -76,6 +85,7 @@ function renderCanvas() {
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     changeTextOnCanvas();
+    drawLineArea()
   };
 }
 

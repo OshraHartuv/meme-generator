@@ -51,6 +51,11 @@ var gMemes = [
 
 var gMeme;
 
+function updateSecondRowPos(value) {
+  gMeme.lines[1].y = value;
+  // line.y = value
+}
+
 function updateLine(key, value, idx = null) {
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
@@ -87,19 +92,28 @@ function updateLine(key, value, idx = null) {
     //   line.Xend = value + line.x;
     // return line.width + line.x;
 
-    case 'initY':
-      line.y = value;
-      break;
+    // case 'initY':
+    //   line.y = value;
+    //   break;
   }
 }
 
-function updateSelectedLineIdx() {
-  // var acc = 1
-  // var linesLength = gMeme.lines.length
-  // gMeme.selectedLineIdx = (gMeme.lines.length - 1 === gMeme.selectedLineIdx)
-  if (gMeme.lines.length > 1) {
+function getLineArea() {
+  var line = gMeme.lines[gMeme.selectedLineIdx];
+  return {
+    x: line.x - 3,
+    y: line.y - line.size,
+    width: line.xEnd - line.x + 6,
+    height: line.size + 3,
+  };
+}
+
+function updateSelectedLineIdx(idx = null) {
+  if (idx) gMeme.selectedLineIdx = idx;
+  else if (gMeme.lines.length > 1) {
     gMeme.selectedLineIdx += gMeme.selectedLineIdx === 0 ? 1 : -1;
   }
+  // updateLineArea()
 }
 
 function getUrlByMeme(meme) {
