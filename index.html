@@ -11,92 +11,94 @@
 
 <body onload="onInit()">
 
-    <div class="main-layout">
-        <header>
-            <div class="header-container">
+    <header>
+        <div class="header-container">
+            <div class="header-container main-layout">
                 <div class="logo">logo</div>
                 <div class="nav-container">
+                    <!-- <a href="#">Gallery</a>
+                    <a href="#">Memes</a> -->
                     <button onclick="">Gallery</button>
                     <button onclick="">Memes</button>
-                    <button onclick="">About</button>
+                    <a href="#">About</a>
+                    <!-- <button onclick="">About</button> -->
                 </div>
             </div>
-            <!-- </div> -->
-        </header>
-
-        <main>
-
-            <!-- SEARCH -->
-            <!-- <div class="main-layout"> -->
-            <div class="search-container">
-                <div class="serch-input">
-                    <input type="text" class="search-input" placeholder="Search">
-                    <button onclick="" class="search-btn">🔍</button>
-                </div>
-                <div class="search-words">
-                    <div class="search-word">funny</div>
-                    <div class="search-word">funny</div>
-                    <div class="search-word">funny</div>
-                    <div class="search-word">funny</div>
-                </div>
+        </div>
+        
+    </header>
+    
+    <main>
+        
+        <div class="search-container main-layout">
+            <div class="serch-input">
+                <input type="text" class="search-input" placeholder="Search">
+                <button onclick="" class="search-btn">🔍</button>
             </div>
-            <!-- </div> -->
+            <div class="search-words">
+                <div class="search-word">funny</div>
+                <div class="search-word">funny</div>
+                <div class="search-word">funny</div>
+                <div class="search-word">funny</div>
+            </div>
+        </div>
 
-<!-- GALLERY -->
-            <div class="gallery-container">
+        <div class="gallery-container">
+            <div class="gallery-container main-layout">
+
                 <div class="gallery-img img-1" onclick="onOpenEditor(this)" id='1'></div>
                 <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
-                <!-- <div class="gallery-img 3" onclick=""></div>
-                <div class="gallery-img 3" onclick=""></div> -->
-            </div>       
-
-            <!-- CANVAS -->
-            <div class="editor-container" style="display: none;">
-                <div class="canvas-container">
-                    <canvas id="my-canvas"></canvas>
-                </div>
-                <div class="editor-tools">
-                    <input class="meme-text" placeholder="Enter meme text" oninput="onUpdateLine('typeText',this.value)">
-                    <div class="line-editors">
-                        <button onclick="onUpdateLine('textUp')">up</button>
-                        <!-- <button onclick="onTextUp()">up</button> -->
-                        <button onclick="onUpdateLine('textDown')">down</button>
-                        <!-- <button onclick="onTextDown()">down</button> -->
-                        <button onclick="onSwitchLines()">arrows</button>
-                        <button>+</button>
-                        <button>delete</button>
-                    </div>
-                    <div class="text-editors">
-                        <button onclick="onUpdateLine('increaseFont')">a+</button>
-                        <!-- <button onclick="onIncreaseFont()">a+</button> -->
-                        <button onclick="onUpdateLine('decreaseFont',10)">a-</button>
-                        <!-- <button onclick="onDecreaseFont()">a-</button> -->
-                        <button>r</button>
-                        <button>l</button>
-                        <select name="font-family" id="font-family">
-                            <option value="impact">Impact</option>
-                            <option value="Ariel">Ariel</option>
-                        </select>
-                        <input type="color" class="stroke-color">
-                        <input type="color" class="font-color">
-                    </div>
-                    <div class="stickers"></div>
-                    <div class="upload-services">
-                        <button>Upload</button>
-                        <button>Download</button> 
-                        <button>Save</button>
-                    </div>
-                    
-                    
-                    <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpeg">Download as jpeg</a>
-                </div>
+                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
+                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
+                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
+                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
+                
             </div>
-            
-            
-            
-            
-            
-            <!-- <div class="about-container">
+        </div>
+
+        <!-- CANVAS -->
+        <div class="editor-container" style="display: none;">
+            <div class="canvas-container">
+                <canvas id="my-canvas"></canvas>
+            </div>
+            <div class="editor-tools">
+                <input class="meme-text" placeholder="Enter meme text" oninput="onUpdateLine('typeText',this.value)">
+                <div class="line-editors">
+                    <button onclick="onUpdateLine('textUp')">up</button>
+                    <button onclick="onUpdateLine('textDown')">down</button>
+                    <button onclick="onSwitchLines()">arrows</button>
+                    <button>+</button>
+                    <button>delete</button>
+                </div>
+                <div class="text-editors">
+                    <button onclick="onUpdateLine('increaseFont')">a+</button>
+                    <button onclick="onUpdateLine('decreaseFont',10)">a-</button>
+                    <button>r</button>
+                    <button>l</button>
+                    <select name="font-family" id="font-family">
+                        <option value="impact">Impact</option>
+                        <option value="Ariel">Ariel</option>
+                    </select>
+                    <input type="color" class="stroke-color">
+                    <input type="color" class="font-color">
+                </div>
+                <div class="stickers"></div>
+                <div class="upload-services">
+                    <button>Upload</button>
+                    <!-- <button>Download</button>  -->
+                    <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpeg">Download (jpeg)</a>
+                    <button>Save</button>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <!-- <div class="about-container">
                 <div class="about-img"><img  class="my-img" src="img/2.jpg"></div>
                 <div class="about-content">
                     <div class="about-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae nisi, neque
@@ -109,12 +111,12 @@
                         </ul>
                     </div>
                 </div> -->
-            <!-- </div> -->
+        <!-- </div> -->
 
 
-        </main>
+    </main>
 
-    </div>
+    <!-- </div> -->
 
 
     <script src="js/controller.js"></script>
