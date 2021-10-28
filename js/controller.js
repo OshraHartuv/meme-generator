@@ -80,6 +80,7 @@ function changeTextOnCanvas(value = null) {
     gCtx.fillText(`${text}`, line.x, line.y);
     gCtx.strokeText(`${text}`, line.x, line.y);
   });
+
 }
 
 // RENDER
@@ -105,6 +106,7 @@ function resizeCanvas() {
   elEditorContainer.height = elCanvasContainer.offsetHeight;
   gElCanvas.width = elCanvasContainer.offsetWidth;
   gElCanvas.height = elCanvasContainer.offsetHeight;
+  // updateLinesSize(gElCanvas.width, gElCanvas.height)
   renderCanvas();
 }
 

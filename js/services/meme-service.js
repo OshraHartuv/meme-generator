@@ -74,6 +74,19 @@ function updateSecondRowPos(value) {
   // line.y = value
 }
 
+function  updateLinesSize(CanvasWidth, CanvasHeight) {
+  gMeme.lines.forEach(line =>{
+    var lineWidth = line.xEnd- line.x
+    if (line.xEnd > CanvasWidth -10) {
+      line.xEnd = CanvasWidth -10
+      line.x = lineWidth + line.xEnd
+    }
+    if (line.y + line.size > CanvasHeight - 10){
+      line.y = CanvasHeight + 10 + line.size
+    }
+  })
+}
+
 function updateLine(key, value, idx = null) {
   if (gMeme.selectedLineIdx === null) return;
   var line =
