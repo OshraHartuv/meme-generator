@@ -19,7 +19,7 @@ var gMemes = [
         color: 'red',
         x: 10,
         y: 50,
-        width: 0,
+        xEnd: 0,
       },
       {
         txt: 'nothing',
@@ -27,8 +27,8 @@ var gMemes = [
         align: 'left',
         color: 'red',
         x: 10,
-        y: 100,
-        width: 0,
+        y: 'init',
+        xEnd: 0,
       },
     ],
   },
@@ -43,7 +43,7 @@ var gMemes = [
         color: 'red',
         x: 10,
         y: 50,
-        width: 0,
+        xEnd: 0,
       },
     ],
   },
@@ -51,30 +51,54 @@ var gMemes = [
 
 var gMeme;
 
-function updateLine(line, key,textInput = null) {
-  console.log(gMeme);
+function updateLine(key, value, idx = null) {
+  var line =
+    idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
+  // console.log(line);
   switch (key) {
     case 'textDown':
-      line.y += 10
+      line.y += line.y + 20 <= value ? 10 : 0;
       break;
-    
+
     case 'textUp':
-      line.y -= 10;
+      line.y -= line.y - line.size >= 10 ? 10 : 0;
       break;
-    
+
     case 'decreaseFont':
-      line.size -= 10
+      line.size -= line.size > value ? value : 0;
       break;
-    
+
     case 'increaseFont':
       line.size += 10;
       if (line.size > line.y) line.y = line.size;
       break;
-    
+
     case 'typeText':
-      line.txt  = `${textInput}`;
+      line.txt = `${value}`;
       break;
-    
+
+    case 'xEnd':
+      // line.width = value;
+      line.xEnd = value + line.x;
+      break;
+
+    // case 'width':
+    //   // line.width = value;
+    //   line.Xend = value + line.x;
+    // return line.width + line.x;
+
+    case 'initY':
+      line.y = value;
+      break;
+  }
+}
+
+function updateSelectedLineIdx() {
+  // var acc = 1
+  // var linesLength = gMeme.lines.length
+  // gMeme.selectedLineIdx = (gMeme.lines.length - 1 === gMeme.selectedLineIdx)
+  if (gMeme.lines.length > 1) {
+    gMeme.selectedLineIdx += gMeme.selectedLineIdx === 0 ? 1 : -1;
   }
 }
 

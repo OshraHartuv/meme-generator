@@ -56,17 +56,21 @@
                     <canvas id="my-canvas"  onclick="" ></canvas>
                 </div>
                 <div class="editor-tools">
-                    <input class="meme-text" placeholder="Enter meme text" oninput="onTypeText(this)">
+                    <input class="meme-text" placeholder="Enter meme text" oninput="onUpdateLine('typeText',this.value)">
                     <div class="line-editors">
-                        <button onclick="onTextUp()">up</button>
-                        <button onclick="onTextDown()">down</button>
-                        <button>arrows</button>
+                        <button onclick="onUpdateLine('textUp')">up</button>
+                        <!-- <button onclick="onTextUp()">up</button> -->
+                        <button onclick="onUpdateLine('textDown')">down</button>
+                        <!-- <button onclick="onTextDown()">down</button> -->
+                        <button onclick="onSwitchLines()">arrows</button>
                         <button>+</button>
                         <button>delete</button>
                     </div>
                     <div class="text-editors">
-                        <button onclick="onIncreaseFont()">a+</button>
-                        <button onclick="onDecreaseFont()">a-</button>
+                        <button onclick="onUpdateLine('increaseFont')">a+</button>
+                        <!-- <button onclick="onIncreaseFont()">a+</button> -->
+                        <button onclick="onUpdateLine('decreaseFont',10)">a-</button>
+                        <!-- <button onclick="onDecreaseFont()">a-</button> -->
                         <button>r</button>
                         <button>l</button>
                         <select name="font-family" id="font-family">
@@ -79,7 +83,7 @@
                     <div class="stickers"></div>
                     <div class="upload-services">
                         <button>Upload</button>
-                        <button>Download</button>
+                        <button>Download</button> 
                         <button>Save</button>
                     </div>
                     
