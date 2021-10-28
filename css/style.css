@@ -80,24 +80,21 @@ body {
 
 .gallery-container .main-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-rows: 250px;
+  grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+  grid-auto-rows: 30vw;
+  max-width: 95vw;
   align-items: stretch;
   justify-items: center;
   width: 100%;
-  gap: 13.5px;
-  padding: 13.5px 0;
-  /* padding-top: ; */
+  padding: 2.5vw 0;
+  gap: 2.5vw;
 }
 
 .gallery-img {
-  /* min-height: 30vh; */
-  height: 250px;
   opacity: 0.5;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
   width: 100%;
-  /* object-fit: cover; */
 }
 
 .gallery-img:hover{
