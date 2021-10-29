@@ -61,7 +61,7 @@ function onUpdateLine(key, value = null) {
 // FIRST OPEN
 function onOpenEditor(elImg) {
   var elSearch = document.querySelector('.editor-container');
-  elSearch.style.display = 'flex';
+  elSearch.style.display = 'grid';
   var elSearch = document.querySelector('.search-container');
   elSearch.style.display = 'none';
   var elGallery = document.querySelector('.gallery-container');

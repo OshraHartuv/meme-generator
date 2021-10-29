@@ -11,103 +11,123 @@
 
 <body onload="onInit()">
 
-    <header>
-        <div class="header-container">
-            <div class="header-container main-layout">
-                <div class="logo">logo</div>
-                <div class="nav-container">
-                    <!-- <a href="#">Gallery</a>
+    <div class='app-layout'>
+        <header>
+            <div class="header-container">
+                <div class="header-container main-layout">
+                    <div class="logo">logo</div>
+                    <div class="nav-container">
+                        <!-- <a href="#">Gallery</a>
                     <a href="#">Memes</a> -->
-                    <button onclick="">Gallery</button>
-                    <button onclick="">Memes</button>
-                    <a href="#">About</a>
-                    <!-- <button onclick="">About</button> -->
+                        <button onclick="">Gallery</button>
+                        <button onclick="">Memes</button>
+                        <a href="#">About</a>
+                        <!-- <button onclick="">About</button> -->
+                    </div>
                 </div>
             </div>
-        </div>
-        
-    </header>
-    
-    <main>
-        
-        <div class="search-container main-layout">
-            <div class="serch-input">
-                <input type="text" class="search-input" placeholder="Search">
-                <button onclick="" class="search-btn">🔍</button>
-            </div>
-            <div class="search-words">
-                <!-- <div class="search-word">funny</div>
+
+        </header>
+
+        <main>
+
+            <div class="search-container main-layout">
+                <div class="search-input">
+                    <input type="text" class="search-input" placeholder="Search">
+                    <button onclick="" class="search-btn">🔍</button>
+                </div>
+                <!-- <div class="search-words"> -->
+                    <!-- <div class="search-word">funny</div>
                 <div class="search-word">funny</div>
                 <div class="search-word">funny</div>
                 <div class="search-word">funny</div> -->
+                <!-- </div> -->
             </div>
-        </div>
 
-        <div class="gallery-container">
-            <div class="gallery-container main-layout">
+            <div class="gallery-container">
+                <div class="gallery-container main-layout">
 
-                <div class="gallery-img img-1" onclick="onOpenEditor(this)" id='1'></div>
-                <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
-                <div class="gallery-img img-3" onclick="onOpenEditor(this)" id='3'></div>
-                <div class="gallery-img img-4" onclick="onOpenEditor(this)" id='4'></div>
-                <div class="gallery-img img-5" onclick="onOpenEditor(this)" id='5'></div>
-                <div class="gallery-img img-6" onclick="onOpenEditor(this)" id='6'></div>
-                <div class="gallery-img img-7" onclick="onOpenEditor(this)" id='7'></div>
-                <div class="gallery-img img-8" onclick="onOpenEditor(this)" id='8'></div>
-                <div class="gallery-img img-9" onclick="onOpenEditor(this)" id='9'></div>
-                <div class="gallery-img img-10" onclick="onOpenEditor(this)" id='10'></div>
-                
-            </div>
-        </div>
+                    <div class="gallery-img img-1" onclick="onOpenEditor(this)" id='1'></div>
+                    <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
+                    <div class="gallery-img img-3" onclick="onOpenEditor(this)" id='3'></div>
+                    <div class="gallery-img img-4" onclick="onOpenEditor(this)" id='4'></div>
+                    <div class="gallery-img img-5" onclick="onOpenEditor(this)" id='5'></div>
+                    <div class="gallery-img img-6" onclick="onOpenEditor(this)" id='6'></div>
+                    <div class="gallery-img img-7" onclick="onOpenEditor(this)" id='7'></div>
+                    <div class="gallery-img img-8" onclick="onOpenEditor(this)" id='8'></div>
+                    <div class="gallery-img img-9" onclick="onOpenEditor(this)" id='9'></div>
+                    <div class="gallery-img img-10" onclick="onOpenEditor(this)" id='10'></div>
 
-        <!-- CANVAS -->
-        <div class="editor-container main-layout" style="display: none;">
-            <div class="canvas-container">
-                <canvas id="my-canvas"></canvas>
-            </div>
-            <div class="editor-tools">
-                <input class="meme-text" placeholder="Enter meme text" oninput="onUpdateLine('typeText',this.value)">
-                <div class="line-editors">
-                    <button onclick="onUpdateLine('textUp')">up</button>
-                    <button onclick="onUpdateLine('textDown')">down</button>
-                    <button onclick="onSwitchLines()">arrows</button>
-                    <button onclick="onAddLine()">+</button>
-                    <button onclick="onDeleteLine()">delete</button>
                 </div>
-                <div class="text-editors">
-                    <button onclick="onUpdateLine('increaseFont')">a+</button>
-                    <button onclick="onUpdateLine('decreaseFont')">a-</button>
-                    <button onclick="onUpdateLine('align-left')">l</button>
-                    <button onclick="onUpdateLine('align-center')">c</button>
-                    <button onclick="onUpdateLine('align-right')">r</button>
-                    <select name="font-family" id="font-family" onchange="onUpdateLine('font-family',this.value)">
-                        <option value="" disabled >font-family</option>
-                        <option value="impact" >Impact</option>
-                        <option value="Ariel">Ariel</option>
-                    </select>
-                    <input type="color" class="stroke-color" onchange="onUpdateLine('stroke-color',this.value)">
-                    <input type="color" class="fill-color" value="#ffffff" onchange="onUpdateLine('fill-color',this.value)">
-                </div>
-                <div class="stickers"></div>
-                <div class="upload-services">
-                    <button>Upload</button>
-                    <!-- <button  class="btn" onclick="downloadImg(this)"><span>Download</span></button>  -->
-                    <!-- <a class="btn" onclick="downloadImg(this)">Download (jpeg)</a> -->
-                    <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpeg">Download (jpeg)</a>
-                    <button>Save</button>
-                    <!-- <button href="#" class="download" onclick="downloadImg(this)">Download</button> -->
-                    <!--  -->
-                </div>
-
-
             </div>
-        </div>
+
+            <!-- CANVAS -->
+            <!-- <div class="editor-page-container"> -->
+            <div class="editor-container main-layout" style="display: none;">
+                <div class="canvas-container">
+                    <canvas id="my-canvas"></canvas>
+                </div>
+                <div class="tools-container">
+                    <div class="line-tools">
+                        <input class="meme-text" placeholder="Enter meme text"
+                            oninput="onUpdateLine('typeText',this.value)">
+                        <div class="line-editors">
+                            <button onclick="onUpdateLine('textUp')">🡩</button>
+                            <button onclick="onUpdateLine('textDown')">🡫</button>
+                            <button onclick="onSwitchLines()">⮃</button>
+                            <button onclick="onAddLine()">+</button>
+                            <button onclick="onDeleteLine()">🗑</button>
+                        </div>
+                    </div>
+                    <div class="text-editors">
+                        <div class="text-size-align">
+                            <button onclick="onUpdateLine('increaseFont')">a+</button>
+                            <button onclick="onUpdateLine('decreaseFont')">a-</button>
+                            <button onclick="onUpdateLine('align-left')">l</button>
+                            <button onclick="onUpdateLine('align-center')">c</button>
+                            <button onclick="onUpdateLine('align-right')">r</button>
+                        </div>
+                        <div class="text-family-color">
+                            <select name="font-family" id="font-family"
+                                onchange="onUpdateLine('font-family',this.value)" class="family-select" >
+                                <!-- <option value="" disabled>font-family</option> -->
+                                <option value="" disabled selected>Font Family</option>
+                                <option value="impact">Impact</option>
+                                <option value="Ariel">Ariel</option>
+                            </select>
+                            <input type="color" class="stroke-color" onchange="onUpdateLine('stroke-color',this.value)">
+                            <input type="color" class="fill-color" value="#ffffff"
+                                onchange="onUpdateLine('fill-color',this.value)">
+                        </div>
+                    </div>
+                    <!-- <div class="stickers"></div> -->
+                    <div class="upload-services">
+                        <button>Upload</button>
+                        <!-- <button  class="btn" onclick="downloadImg(this)"><span>Download</span></button>  -->
+                        <!-- <a class="btn" onclick="downloadImg(this)">Download (jpeg)</a> -->
+                        <button><a href="#" onclick="downloadImg(this)" download="my-img.jpeg">Download</a></button>
+                        <button>Save</button>
+                        <!-- <button href="#" class="download" onclick="downloadImg(this)">Download</button> -->
+                        <!--  -->
+                    </div>
 
 
+                </div>
+            </div>
+            
+            <!-- <footer> -->
+            <!-- <div class="footer-container"></div> -->
+        <!-- </footer> -->
+            
+        <!-- </div> -->
+        </main>
+        <!-- <footer>
+            <div class="footer-container"></div>
+        </footer> -->
+    </div>
 
 
-
-        <!-- <div class="about-container">
+    <!-- <div class="about-container">
                 <div class="about-img"><img  class="my-img" src="img/2.jpg"></div>
                 <div class="about-content">
                     <div class="about-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae nisi, neque
@@ -120,10 +140,9 @@
                         </ul>
                     </div>
                 </div> -->
-        <!-- </div> -->
+    <!-- </div> -->
 
 
-    </main>
 
     <!-- </div> -->
 
