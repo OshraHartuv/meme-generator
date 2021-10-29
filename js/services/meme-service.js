@@ -282,8 +282,11 @@ function getMeme() {
 }
 
 function updateGmeme(elImgId) {
+  if (elImgId === 'close') {gMeme =null
+    return}
   var currMeme = gMemes.find((meme) => {
     return `${meme.selectedImgId}` === elImgId;
   });
-  gMeme = currMeme;
+    gMeme = currMeme;
+    console.log(currMeme);
 }

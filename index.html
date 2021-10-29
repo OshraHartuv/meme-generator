@@ -12,36 +12,28 @@
 <body onload="onInit()">
 
     <div class='app-layout'>
+        <div class="main-screen" onclick="toggleMenu()"></div>
         <header>
             <div class="header-container">
                 <div class="header-container main-layout">
                     <div class="logo">logo</div>
                     <div class="nav-container">
-                        <!-- <a href="#">Gallery</a>
-                    <a href="#">Memes</a> -->
-                        <button onclick="">Gallery</button>
+                        <button onclick="onCloseEditor()">Gallery</button>
                         <button onclick="">Memes</button>
-                        <a href="#">About</a>
-                        <!-- <button onclick="">About</button> -->
+                        <button onclick="">About<a href="#" onclick="check()"></a></button>
                     </div>
+                    <button class="btn-menu" onclick="toggleMenu()">☰</button>
                 </div>
             </div>
 
         </header>
 
         <main>
-
             <div class="search-container main-layout">
                 <div class="search-input">
                     <input type="text" class="search-input" placeholder="Search">
                     <button onclick="" class="search-btn">🔍</button>
                 </div>
-                <!-- <div class="search-words"> -->
-                    <!-- <div class="search-word">funny</div>
-                <div class="search-word">funny</div>
-                <div class="search-word">funny</div>
-                <div class="search-word">funny</div> -->
-                <!-- </div> -->
             </div>
 
             <div class="gallery-container">
@@ -120,11 +112,11 @@
         <!-- </footer> -->
             
         <!-- </div> -->
+    <!-- </div> -->
         </main>
         <!-- <footer>
             <div class="footer-container"></div>
         </footer> -->
-    </div>
 
 
     <!-- <div class="about-container">

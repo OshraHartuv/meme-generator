@@ -4,22 +4,26 @@ var gElCanvas;
 var gCtx;
 
 function onInit() {
-  createMemes()
-  renderPhotos()
+  createMemes();
+  renderPhotos();
   gElCanvas = document.getElementById('my-canvas');
   gCtx = gElCanvas.getContext('2d');
   addListeners();
 }
 
-function renderPhotos(){
-  var length = getImgLength()
+function toggleMenu() {
+  document.body.classList.toggle('menu-open');
+}
+
+function renderPhotos() {
+  var length = getImgLength();
   // var elContainer = document.querySelector('.gallery-container .main-layout')
-  for (var i = 1; i < length +1; i++){
-    var img = document.querySelector(`.img-${i}`)
-    img.style.backgroundImage = `url('img/${i}.jpg')`
-    img.style.backgroundSize = `cover`
-    img.style.backgroundPosition = `center center`
-    }
+  for (var i = 1; i < length + 1; i++) {
+    var img = document.querySelector(`.img-${i}`);
+    img.style.backgroundImage = `url('img/${i}.jpg')`;
+    img.style.backgroundSize = `cover`;
+    img.style.backgroundPosition = `center center`;
+  }
 }
 
 function drawLineArea() {
@@ -58,10 +62,23 @@ function onUpdateLine(key, value = null) {
   renderCanvas();
 }
 
+
+function onCloseEditor(){
+  var elSearch = document.querySelector('.editor-container');
+  elSearch.style.display = 'none';
+  var elSearch = document.querySelector('.search-container');
+  elSearch.style.display = 'flex';
+  var elGallery = document.querySelector('.gallery-container');
+  elGallery.style.display = 'grid';
+  updateGmeme('close')
+  toggleMenu()
+}
+
 // FIRST OPEN
 function onOpenEditor(elImg) {
   var elSearch = document.querySelector('.editor-container');
   elSearch.style.display = 'grid';
+  // // document.body.classList.toggle('editor-open')
   var elSearch = document.querySelector('.search-container');
   elSearch.style.display = 'none';
   var elGallery = document.querySelector('.gallery-container');
@@ -115,8 +132,8 @@ function renderCanvas() {
   var url = getUrlByMeme(meme);
   var img = new Image();
   img.src = `${url}`;
-  // BUG WHEN DOWNLOAD 
-  if (!img.onload && gMeme.selectedLineIdx === 'none') notLoad(img)
+  // BUG WHEN DOWNLOAD
+  if (!img.onload && gMeme.selectedLineIdx === 'none') notLoad(img);
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     changeTextOnCanvas();
@@ -124,7 +141,7 @@ function renderCanvas() {
   };
 }
 
-function notLoad(img){
+function notLoad(img) {
   gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
   changeTextOnCanvas();
 }
@@ -195,4 +212,3 @@ function downloadImg(elLink) {
   elLink.href = data;
   elLink.download = 'my-meme';
 }
-
