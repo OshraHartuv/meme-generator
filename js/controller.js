@@ -4,9 +4,22 @@ var gElCanvas;
 var gCtx;
 
 function onInit() {
+  createMemes()
+  renderPhotos()
   gElCanvas = document.getElementById('my-canvas');
   gCtx = gElCanvas.getContext('2d');
   addListeners();
+}
+
+function renderPhotos(){
+  var length = getImgLength()
+  // var elContainer = document.querySelector('.gallery-container .main-layout')
+  for (var i = 1; i < length +1; i++){
+    var img = document.querySelector(`.img-${i}`)
+    img.style.backgroundImage = `url('img/${i}.jpg')`
+    img.style.backgroundSize = `cover`
+    img.style.backgroundPosition = `center center`
+    }
 }
 
 function drawLineArea() {

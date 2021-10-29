@@ -5,70 +5,116 @@ var gKeywords = { happy: 12, 'funny puk': 1 };
 var gImgs = [
   { id: 1, url: 'img/1.jpg', keywords: ['trump'] },
   { id: 2, url: 'img/2.jpg', keywords: ['dogs'] },
+  { id: 3, url: 'img/3.jpg', keywords: ['dogs'] },
+  { id: 4, url: 'img/4.jpg', keywords: ['dogs'] },
+  { id: 5, url: 'img/5.jpg', keywords: ['dogs'] },
+  { id: 6, url: 'img/6.jpg', keywords: ['dogs'] },
+  { id: 7, url: 'img/7.jpg', keywords: ['dogs'] },
+  { id: 8, url: 'img/8.jpg', keywords: ['dogs'] },
+  { id: 9, url: 'img/9.jpg', keywords: ['dogs'] },
+  { id: 10, url: 'img/10.jpg', keywords: ['dogs'] },
 ];
 
-var gMemes = [
-  {
-    selectedImgId: 1,
-    selectedLineIdx: 0,
-    // isExport: false,
-    lines: [
-      {
-        txt: 'I know',
-        size: 20,
-        fillColor: 'white',
-        strokeColor: 'black',
-        align: 'left',
-        'font-family': 'impact',
-        x: 10,
-        y: 50,
-        width: 0,
-      },
-      {
-        txt: 'you',
-        size: 20,
-        fillColor: 'white',
-        strokeColor: 'black',
-        align: 'left',
-        'font-family': 'impact',
-        x: 10,
-        y: 'init',
-        width: 0,
-      },
-    ],
-  },
-  {
-    selectedImgId: 2,
-    selectedLineIdx: 0,
-    // isExport: false,
-    lines: [
-      {
-        txt: 'I never eat Falafel',
-        size: 20,
-        fillColor: 'white',
-        strokeColor: 'black',
-        align: 'left',
-        'font-family': 'impact',
-        x: 10,
-        y: 50,
-        width: 0,
-      },
-      {
-        txt: 'I love falafel',
-        size: 20,
-        fillColor: 'white',
-        strokeColor: 'black',
-        align: 'left',
-        'font-family': 'impact',
-        x: 10,
-        y: 'init',
-        width: 0,
-      },
-    ],
-  },
-];
+
+var gMemes = [];
+// var gMemes = [
+//   {
+//     selectedImgId: 1,
+//     selectedLineIdx: 0,
+//     // isExport: false,
+//     lines: [
+//       {
+//         txt: 'I know',
+//         size: 20,
+//         fillColor: 'white',
+//         strokeColor: 'black',
+//         align: 'left',
+//         'font-family': 'impact',
+//         x: 10,
+//         y: 50,
+//         width: 0,
+//       },
+//       {
+//         txt: 'you',
+//         size: 20,
+//         fillColor: 'white',
+//         strokeColor: 'black',
+//         align: 'left',
+//         'font-family': 'impact',
+//         x: 10,
+//         y: 'init',
+//         width: 0,
+//       },
+//     ],
+//   },
+//   {
+//     selectedImgId: 2,
+//     selectedLineIdx: 0,
+//     // isExport: false,
+//     lines: [
+//       {
+//         txt: 'I never eat Falafel',
+//         size: 20,
+//         fillColor: 'white',
+//         strokeColor: 'black',
+//         align: 'left',
+//         'font-family': 'impact',
+//         x: 10,
+//         y: 50,
+//         width: 0,
+//       },
+//       {
+//         txt: 'I love falafel',
+//         size: 20,
+//         fillColor: 'white',
+//         strokeColor: 'black',
+//         align: 'left',
+//         'font-family': 'impact',
+//         x: 10,
+//         y: 'init',
+//         width: 0,
+//       },
+//     ],
+//   },
+// ];
 
 var gMeme;
+
+// createMeme()
+
+function createMeme(id) {
+  var meme = {
+    selectedImgId: id,
+    selectedLineIdx: 0,
+    lines: [{}, {}]
+  };
+  meme.lines.forEach((line, idx) => {
+    line['txt'] = '';
+    line['size'] = 30;
+    line['fillColor'] = 'white';
+    line['strokeColor'] = 'black';
+    line['align'] = 'center';
+    line['font-family'] = 'impact';
+    line['width'] = 0;
+    line['x'] = 10;
+    if (idx === 0) line['y'] = 50;
+    else line['y'] = 'init';
+  });
+  // console.log(meme);
+  return meme
+}
+
+function getImgLength(){
+  return gImgs.length
+}
+
+function createMemes() {
+for (var i =0; i < gImgs.length; i++){
+  var meme = createMeme(i+1)
+  gMemes.push(meme)
+  // console.log(gMemes);
+}
+}
 
 function deleteLine() {
   gMeme.lines.splice(gMeme.selectedLineIdx, 1);
@@ -115,7 +161,7 @@ function updateLinesSizes(CanvasWidth, CanvasHeight) {
 }
 
 function alignText(CanvasWidth, idx = null) {
-  if (!gMeme.lines.length || gMeme.selectedLineIdx === 'none') return
+  if (!gMeme.lines.length || gMeme.selectedLineIdx === 'none') return;
   var line = idx ? gMeme.lines[idx] : gMeme.lines[gMeme.selectedLineIdx];
   switch (line.align) {
     case 'left':
@@ -134,7 +180,7 @@ function alignText(CanvasWidth, idx = null) {
 }
 
 function updateLine(key, value, idx = null) {
-  if (gMeme.selectedLineIdx === 'none'|| !gMeme.lines.length) return;
+  if (gMeme.selectedLineIdx === 'none' || !gMeme.lines.length) return;
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
   switch (key) {
@@ -197,7 +243,7 @@ function updateLine(key, value, idx = null) {
 }
 
 function getLineArea() {
-  if (gMeme.selectedLineIdx === 'none'|| !gMeme.lines.length ) return;
+  if (gMeme.selectedLineIdx === 'none' || !gMeme.lines.length) return;
   var line = gMeme.lines[gMeme.selectedLineIdx];
   return {
     x: line.x - 3,
@@ -209,13 +255,11 @@ function getLineArea() {
 
 function updateSelectedLineIdx(value = null) {
   if (!gMeme.lines.length) {
-    return
-  }
-  else if (value === 'none') {
+    return;
+  } else if (value === 'none') {
     gMeme.selectedLineIdx = 'none';
     console.log(gMeme.selectedLineIdx);
-  } 
-  else if (
+  } else if (
     gMeme.selectedLineIdx === 'none' ||
     gMeme.selectedLineIdx === gMeme.lines.length - 1 ||
     gMeme.lines.length === 1

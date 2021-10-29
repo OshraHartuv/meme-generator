@@ -102,7 +102,7 @@ body {
   transition: 0.5s;
 }
 
-.img-1 {
+/* .img-1 {
   background: url('../img/1.jpg');
   background-size: cover;
   background-position: center center;
@@ -112,7 +112,7 @@ body {
   background: url('../img/2.jpg');
   background-size: cover;
   background-position: center center;
-}
+} */
 
 /* CANVAS */
 
