@@ -27,11 +27,6 @@ function onSwitchLines() {
 
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
-  else if (
-    key === 'align-center' ||
-    key === 'align-right'
-  )
-    value = gElCanvas.offsetWidth;
   updateLine(key, value);
   renderCanvas();
 }
@@ -63,21 +58,13 @@ function changeTextOnCanvas() {
       elTextInput.value = `${text}`;
       // text is out of canvas (type text)
       if (line.width > gElCanvas.offsetWidth - 10) {
-        updateLine('decreaseFont', 10, idx);
+        updateLine('decreaseFont');
         renderCanvas();
-        return;
       }
-      else if (line.x + line.width > gElCanvas.offsetWidth - 10) {
-        updateLine('moveX', gElCanvas.offsetWidth);
-        if (line.x < 10) {
-          updateLine('align-left');
-          renderCanvas()
-          return
-        }
-      }
+      alignText(gElCanvas.offsetWidth)
     }
     else if (line.y === 'init') {
-      updateSecondRowPos(gElCanvas.offsetWidth - 10);
+      updateLine('initY',gElCanvas.offsetWidth);
       line = getMeme().lines[1];
     }
     else if (meme.selectedLineIdx === null) {
@@ -115,6 +102,12 @@ function resizeCanvas() {
   gElCanvas.height = elCanvasContainer.offsetHeight;
   updateLinesSize(gElCanvas.width, gElCanvas.height);
   renderCanvas();
+}
+
+function updateRowWidth(line, idx) {
+  // var line =getMeme().lines[idx]
+  gCtx.font = `${line.size}px ${line['font-family']}`;
+  updateLine('width', gCtx.measureText(line.txt).width, idx)
 }
 
 // *****************
@@ -168,52 +161,3 @@ function downloadImg(elLink) {
   // elLink.download = 'my-meme';
   // window.addEventListener('resize', resizeCanvas);
 }
-
-// function drawCanvas(meme) {
-//   gCtx.strokeStyle = 'black';
-//   gCtx.fillStyle = 'white';
-//   gCtx.font = `20px impact`;
-//   gCtx.lineWidth = 2;
-//   meme.lines.forEach((line, idx) => {
-//     var text = line.txt;
-//     if (idx === 0) {
-//       var elTextInput = document.querySelector('.meme-text');
-//       elTextInput.value = `${text}`;
-//       gLineIdx = 0;
-//       gLine = line;
-//     } else line.y = gElCanvas.offsetWidth - 10;
-//     line.width = gCtx.measureText(text).width;
-//     gCtx.fillText(`${text}`, line.x, line.y);
-//     gCtx.strokeText(`${text}`, line.x, line.y);
-//   });
-// }
-// function onTextDown() {
-//   // if (gLine.y + 20 <= gElCanvas.offsetHeight) {
-//     updateLine('textDown', gElCanvas.offsetHeight);
-//     renderCanvas();
-//   // }
-// }
-
-// function onTextUp() {
-//   // if (gLine.y - gLine.size >= 10) {
-//     updateLine('textUp');
-//     renderCanvas();
-//   // }
-// }
-
-// function onDecreaseFont() {
-//   // if (gLine.size > 10) {
-//     updateLine('decreaseFont');
-//     renderCanvas();
-//   // }
-// }
-
-// function onIncreaseFont() {
-//   updateLine('increaseFont');
-//   renderCanvas();
-// }
-
-// function onTypeText(elTextInput) {
-//   updateLine('typeText', elTextInput.value);
-//   renderCanvas();
-// }

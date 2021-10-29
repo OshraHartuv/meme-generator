@@ -69,31 +69,45 @@ var gMemes = [
 
 var gMeme;
 
-function updateSecondRowPos(value) {
-  gMeme.lines[1].y = value;
-}
+
 
 function updateLinesSize(CanvasWidth, CanvasHeight) {
-  gMeme.lines.forEach((line) => {
-    console.log('line.x', line.x);
-    if (line.x + line.width > CanvasWidth - 10) {
-      line.x = CanvasWidth - line.width - 10;
-    }
+  gMeme.lines.forEach((line,idx) => {
+    // if text is too wide
     if (line.width + 20 > CanvasWidth) {
       line.size -= 10;
       line.x = 10;
-      renderCanvas();
+      updateRowWidth(line,idx)
       updateLinesSize(CanvasWidth, CanvasHeight);
     }
+    // text is too low
     if (line.y > CanvasHeight - 10) {
       line.y = CanvasHeight - 10;
-      updateLinesSize(CanvasWidth, CanvasHeight);
     }
+    // text is too big
     if (line.size > CanvasHeight) {
-      line.size -= 10;
-      renderCanvas();
+      line.size =  CanvasHeight - 10;
     }
+    alignText(line.align, idx);
   });
+}
+
+function alignText(CanvasWidth, idx = null) {
+  var line = idx ? gMeme.lines[idx] : gMeme.lines[gMeme.selectedLineIdx];
+  switch (line.align) {
+    case 'left':
+      if ((line.x = 10)) return;
+      line.x = 10;
+      break;
+
+    case 'center':
+      line.x = (CanvasWidth - line.width) / 2;
+      break;
+
+    case 'right':
+      line.x = CanvasWidth - 10 - line.width;
+      break;
+  }
 }
 
 function updateLine(key, value, idx = null) {
@@ -101,7 +115,13 @@ function updateLine(key, value, idx = null) {
   var line =
     idx === null ? gMeme.lines[gMeme.selectedLineIdx] : gMeme.lines[idx];
   switch (key) {
+    case 'initY':
+      // value is gElCanvas.offsetHeight
+      gMeme.lines[1].y = value - 10;
+      break;
+
     case 'textDown':
+      // value is gElCanvas.offsetHeight
       line.y += line.y + 15 <= value ? 5 : 0;
       break;
 
@@ -110,7 +130,7 @@ function updateLine(key, value, idx = null) {
       break;
 
     case 'decreaseFont':
-      line.size -= line.size > value ? value : 0;
+      line.size -= line.size > 10 ? 10 : 0;
       break;
 
     case 'increaseFont':
@@ -123,6 +143,7 @@ function updateLine(key, value, idx = null) {
       break;
 
     case 'width':
+      // value is gCtx.measureText(text).width, idx
       line.width = value;
       break;
 
@@ -139,26 +160,16 @@ function updateLine(key, value, idx = null) {
       break;
 
     case 'align-left':
-      if (line.x = 10) return;
-      line.x = 10;
       line.align = 'left';
       break;
 
     case 'align-center':
       line.align = 'center';
-      line.x = (value - line.width) / 2;
       break;
 
     case 'align-right':
-      console.log(value);
-      if (line.width >= value - 20) return;
       line.align = 'right';
-      line.x = value - 10 - line.width;
-      console.log(line);
       break;
-
-    case 'moveX':
-      line.x = value - 5 - line.width;
   }
 }
 
@@ -205,17 +216,3 @@ function updateGmeme(elImgId) {
   });
   gMeme = currMeme;
 }
-
-// function getUrlById(imgId){
-//   var img  = gImgs.find((img) => {
-//     return `${img.id}` === imgId;
-//   });
-//   return img.url
-
-// }
-
-// function getImgById(imgId){
-//  return  gImgs.find((img) => {
-//     return `${img.id}` === imgId;
-//   });
-// }
