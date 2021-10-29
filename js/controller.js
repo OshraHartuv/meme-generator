@@ -23,6 +23,20 @@ function onSwitchLines() {
   renderCanvas();
 }
 
+// ADD LINE
+
+function onAddLine() {
+  addLine(gElCanvas.offsetHeight);
+  renderCanvas();
+}
+
+// DELETE LINE
+
+function onDeleteLine() {
+  deleteLine();
+  renderCanvas();
+}
+
 //UPDATE LINE
 
 function onUpdateLine(key, value = null) {
@@ -48,32 +62,38 @@ function changeTextOnCanvas() {
   var meme = getMeme();
   gCtx.lineWidth = 2;
   var elTextInput = document.querySelector('.meme-text');
-  meme.lines.forEach((line, idx) => {
-    var text = line.txt;
-    gCtx.strokeStyle = `${line.strokeColor}`;
-    gCtx.fillStyle = `${line.fillColor}`;
-    gCtx.font = `${line.size}px ${line['font-family']}`;
-    updateLine('width', gCtx.measureText(text).width, idx);
-    if (idx === meme.selectedLineIdx) {
-      elTextInput.value = `${text}`;
-      // text is out of canvas (type text)
-      if (line.width > gElCanvas.offsetWidth - 10) {
-        updateLine('decreaseFont');
-        renderCanvas();
+  if (meme.lines.length) {
+    meme.lines.forEach((line, idx) => {
+      var text = line.txt;
+      gCtx.strokeStyle = `${line.strokeColor}`;
+      gCtx.fillStyle = `${line.fillColor}`;
+      gCtx.font = `${line.size}px ${line['font-family']}`;
+      updateLine('width', gCtx.measureText(text).width, idx);
+      if (idx === meme.selectedLineIdx) {
+        if (!text) {
+          elTextInput.placeholder = 'Type line text here';
+          elTextInput.value = '';
+        } else elTextInput.value = `${text}`;
+        // text is out of canvas (type text)
+        if (line.width > gElCanvas.offsetWidth - 10) {
+          updateLine('decreaseFont');
+          renderCanvas();
+        }
+        alignText(gElCanvas.offsetWidth);
+      } else if (line.y === 'init') {
+        updateLine('initY', gElCanvas.offsetWidth);
+        line = getMeme().lines[1];
+      } else if (meme.selectedLineIdx === 'none') {
+        elTextInput.placeholder = 'no line selected';
+        elTextInput.value = '';
       }
-      alignText(gElCanvas.offsetWidth)
-    }
-    else if (line.y === 'init') {
-      updateLine('initY',gElCanvas.offsetWidth);
-      line = getMeme().lines[1];
-    }
-    else if (meme.selectedLineIdx === null) {
-      elTextInput.placeholder = 'no line selected';
-      elTextInput.value = '';
-    }
-    gCtx.fillText(`${text}`, line.x, line.y);
-    gCtx.strokeText(`${text}`, line.x, line.y);
-  });
+      gCtx.fillText(`${text}`, line.x, line.y);
+      gCtx.strokeText(`${text}`, line.x, line.y);
+    });
+    return;
+  }
+  elTextInput.placeholder = 'no lines (+ for adding)';
+  elTextInput.value = '';
 }
 
 // RENDER
@@ -82,11 +102,18 @@ function renderCanvas() {
   var url = getUrlByMeme(meme);
   var img = new Image();
   img.src = `${url}`;
+  // BUG WHEN DOWNLOAD 
+  if (!img.onload && gMeme.selectedLineIdx === 'none') notLoad(img)
   img.onload = () => {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
     changeTextOnCanvas();
-    drawLineArea();
+    if (gMeme.selectedLineIdx !== 'none') drawLineArea();
   };
+}
+
+function notLoad(img){
+  gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+  changeTextOnCanvas();
 }
 
 // RESIZE
@@ -100,14 +127,14 @@ function resizeCanvas() {
   elEditorContainer.height = elCanvasContainer.offsetHeight;
   gElCanvas.width = elCanvasContainer.offsetWidth;
   gElCanvas.height = elCanvasContainer.offsetHeight;
-  updateLinesSize(gElCanvas.width, gElCanvas.height);
+  updateLinesSizes(gElCanvas.width, gElCanvas.height);
   renderCanvas();
 }
 
 function updateRowWidth(line, idx) {
   // var line =getMeme().lines[idx]
   gCtx.font = `${line.size}px ${line['font-family']}`;
-  updateLine('width', gCtx.measureText(line.txt).width, idx)
+  updateLine('width', gCtx.measureText(line.txt).width, idx);
 }
 
 // *****************
@@ -149,15 +176,10 @@ function addTouchListeners() {
 // DOWNLOAD
 
 function downloadImg(elLink) {
-  // debugger
-  // window.removeEventListener('resize', resizeCanvas)
-  var meme = getMeme();
-  // meme.isExport = true
-  // updateSelectedLineIdx('none');
+  updateSelectedLineIdx('none');
   renderCanvas();
-  // elLink = document.querySelector('.btn');
-  // const data = gElCanvas.toDataURL();
-  // elLink.href = data;
-  // elLink.download = 'my-meme';
-  // window.addEventListener('resize', resizeCanvas);
+  const data = gElCanvas.toDataURL('image/jpeg/png');
+  elLink.href = data;
+  elLink.download = 'my-meme';
 }
+

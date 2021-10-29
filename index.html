@@ -67,8 +67,8 @@
                     <button onclick="onUpdateLine('textUp')">up</button>
                     <button onclick="onUpdateLine('textDown')">down</button>
                     <button onclick="onSwitchLines()">arrows</button>
-                    <button>+</button>
-                    <button>delete</button>
+                    <button onclick="onAddLine()">+</button>
+                    <button onclick="onDeleteLine()">delete</button>
                 </div>
                 <div class="text-editors">
                     <button onclick="onUpdateLine('increaseFont')">a+</button>
@@ -87,9 +87,12 @@
                 <div class="stickers"></div>
                 <div class="upload-services">
                     <button>Upload</button>
-                    <!-- <button>Download</button>  -->
+                    <!-- <button  class="btn" onclick="downloadImg(this)"><span>Download</span></button>  -->
+                    <!-- <a class="btn" onclick="downloadImg(this)">Download (jpeg)</a> -->
                     <a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpeg">Download (jpeg)</a>
                     <button>Save</button>
+                    <!-- <button href="#" class="download" onclick="downloadImg(this)">Download</button> -->
+                    <!--  -->
                 </div>
 
 
