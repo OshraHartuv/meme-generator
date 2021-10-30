@@ -301,7 +301,6 @@ footer {
 
 .about-text{
   margin-bottom: 15px;
-  line-height: 1.5;
 
 }
 
@@ -480,6 +479,11 @@ footer {
 
   .search-container{
     margin-top: 2vh;
+  }
+
+  .about-text{
+    line-height: 1.5;
+  
   }
 }
 

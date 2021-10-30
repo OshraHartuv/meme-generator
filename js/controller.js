@@ -7,8 +7,8 @@ const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 function onInit() {
   gElCanvas = document.getElementById('my-canvas');
   gCtx = gElCanvas.getContext('2d');
-  createGImgs(15)
-  createMemes();
+  createGImgs(15);
+  createMemes(15);
   renderPhotos();
   addListeners();
 }
@@ -35,6 +35,17 @@ function onDeleteLine() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
+  if (
+    key === 'align-right' ||
+    key === 'align-left' ||
+    key === 'align-center'
+  ) {
+    alignText(gElCanvas.offsetWidth);
+  } else if (key === 'typeText') {
+    var meme = getMeme()
+    updateRowWidth(meme.lines[meme.selectedLineIdx], meme.selectedLineIdx)
+    checkLinesSizes(gElCanvas.offsetWidth, gElCanvas.offsetHeight);
+  }
   renderCanvas();
 }
 
@@ -82,8 +93,7 @@ function changeTextOnCanvas() {
           updateLine('decreaseFont');
           renderCanvas();
         }
-        if (!line.isClick) alignText(gElCanvas.offsetWidth);
-        else checkLinesSizes(gElCanvas.width, gElCanvas.height);
+        if (line.isClick) checkLinesSizes(gElCanvas.width, gElCanvas.height);
       } else if (line.y === 'init') {
         updateLine('initY', gElCanvas.offsetWidth);
         line = getMeme().lines[1];

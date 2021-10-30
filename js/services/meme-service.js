@@ -68,9 +68,9 @@ function getImgsLength() {
   return gImgs.length;
 }
 
-function createMemes() {
-  for (var i = 0; i < gImgs.length; i++) {
-    var meme = createMeme(i + 1);
+function createMemes(length) {
+  for (var i = 1; i < length +1; i++) {
+    var meme = createMeme(i);
     gMemes.push(meme);
   }
 }
@@ -119,7 +119,7 @@ function checkLinesSizes(CanvasWidth, CanvasHeight) {
     // text is too high
     if (line.y < line.size) line.y = line.size + 5;
     // line is too left
-    if (line.width + line.x > CanvasWidth)
+    if (line.width + line.x > CanvasWidth -20)
       line.x = CanvasWidth - line.width - 10;
     if (line.isClick) {
       // line is too right
@@ -129,7 +129,7 @@ function checkLinesSizes(CanvasWidth, CanvasHeight) {
 }
 
 function alignText(CanvasWidth, idx = null) {
-  if (!gMeme.lines.length || gMeme.selectedLineIdx === 'none') return;
+  // if (!gMeme.lines.length || gMeme.selectedLineIdx === 'none') return;
   var line = idx ? gMeme.lines[idx] : gMeme.lines[gMeme.selectedLineIdx];
   switch (line.align) {
 
