@@ -1,29 +1,22 @@
 'use strict';
 
-var gKeywords = { happy: 12, 'funny puk': 1 };
-
-var gImgs = [
-  { id: 1, url: 'img/1.jpg', keywords: ['trump'] },
-  { id: 2, url: 'img/2.jpg', keywords: ['dogs'] },
-  { id: 3, url: 'img/3.jpg', keywords: ['dogs' ,'baby'] },
-  { id: 4, url: 'img/4.jpg', keywords: ['cat'] },
-  { id: 5, url: 'img/5.jpg', keywords: ['baby'] },
-  { id: 6, url: 'img/6.jpg', keywords: ['man'] },
-  { id: 7, url: 'img/7.jpg', keywords: ['baby'] },
-  { id: 8, url: 'img/8.jpg', keywords: ['man'] },
-  { id: 9, url: 'img/9.jpg', keywords: ['baby'] },
-  { id: 10, url: 'img/10.jpg', keywords: ['man'] },
-];
-
+var gImgs = [];
 var gMemes = [];
 var gMeme;
+
+function createGImgs(length){
+  for (var i = 1 ; i < length +1 ; i ++ ){
+    var img = { id: i, url: `img/${i}.jpg`}
+    gImgs.push(img)
+  }
+}
 
 function createMeme(id) {
   var meme = {
     selectedImgId: id,
     selectedLineIdx: 0,
     lines: [{}, {}],
-    moveSticker: false
+    moveSticker: false,
   };
   meme.lines.forEach((line, idx) => {
     line['txt'] = '';
@@ -38,7 +31,6 @@ function createMeme(id) {
     if (idx === 0) line['y'] = 50;
     else line['y'] = 'init';
   });
-  // console.log(meme);
   return meme;
 }
 
@@ -53,7 +45,7 @@ function moveClickedLine(pos) {
   lineClicked.y = pos.y + lineClicked.size / 2;
 }
 
-function checkLinesPos(pos) {
+function getLineByPos(pos) {
   var clickedLine = gMeme.lines.find((line) => {
     var xStart = line.x;
     var xEnd = line.width + line.x;
@@ -72,7 +64,7 @@ function checkLinesPos(pos) {
   return clickedLine;
 }
 
-function getImgLength() {
+function getImgsLength() {
   return gImgs.length;
 }
 
@@ -102,16 +94,14 @@ function addLine(CanvasHeight) {
   };
   gMeme.lines.push(line);
   gMeme.selectedLineIdx = gMeme.lines.length - 1;
-  console.log(gMeme.lines);
-  console.log(gMeme.selectedLineIdx);
 }
 
 function checkLinesSizes(CanvasWidth, CanvasHeight) {
   gMeme.lines.forEach((line, idx) => {
+    // RESIZE
     if (!line.isClick) {
-      // RESIZE
       // if text is too wide
-      if (line.width + 20 > CanvasWidth) {
+      if (line.width + 20 > CanvasWidth && CanvasWidth) {
         line.size -= 5;
         line.x = 10;
         updateRowWidth(line, idx);
@@ -122,23 +112,19 @@ function checkLinesSizes(CanvasWidth, CanvasHeight) {
         line.size = CanvasHeight - 10;
       }
     }
-
     // text is too low
     if (line.y > CanvasHeight - 10) {
       line.y = CanvasHeight - 10;
     }
     // text is too high
     if (line.y < line.size) line.y = line.size + 5;
-
     // line is too left
     if (line.width + line.x > CanvasWidth)
-    line.x = CanvasWidth - line.width - 10;
+      line.x = CanvasWidth - line.width - 10;
     if (line.isClick) {
       // line is too right
       if (line.x < 10) line.x = 10;
     }
-
-    // alignText(line.align, idx);
   });
 }
 
@@ -146,6 +132,7 @@ function alignText(CanvasWidth, idx = null) {
   if (!gMeme.lines.length || gMeme.selectedLineIdx === 'none') return;
   var line = idx ? gMeme.lines[idx] : gMeme.lines[gMeme.selectedLineIdx];
   switch (line.align) {
+
     case 'left':
       if ((line.x = 10)) return;
       line.x = 10;
@@ -195,7 +182,7 @@ function updateLine(key, value, idx = null) {
 
     case 'width':
       // value is gCtx.measureText(text).width, idx
-      line.width = value ? value : 20;
+      line.width = value;
       break;
 
     case 'font-family':
@@ -240,9 +227,6 @@ function updateSelectedLineIdx(value = null) {
     return;
   } else if (value === 'none') {
     gMeme.selectedLineIdx = 'none';
-    // console.log(gMeme.selectedLineIdx);
-  // } else if (typeof value === 'number') {
-  //   gMeme.selectedLineIdx = value;
   } else if (
     gMeme.selectedLineIdx === 'none' ||
     gMeme.selectedLineIdx === gMeme.lines.length - 1 ||
@@ -267,6 +251,11 @@ function getMeme() {
 
 function updateGmeme(elImgId) {
   if (elImgId === 'close') {
+    var cleanMeme = createMeme(gMeme.selectedImgId);
+    var idx = gMemes.findIndex((meme) => {
+      return meme.selectedImgId === gMeme.selectedImgId;
+    });
+    gMemes.splice(idx, 1, cleanMeme);
     gMeme = null;
     return;
   }

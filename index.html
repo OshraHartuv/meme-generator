@@ -18,9 +18,9 @@
                 <div class="header-container main-layout">
                     <div class="logo"><img class="logo-img" src="img/LOGO.png"></div>
                     <div class="nav-container">
-                        <button onclick="onCloseEditor()">Gallery</button>
-                        <button onclick="onShowMemes()">Memes</button>
-                        <button onclick="onCloseEditor()" href="#about"><a href="index.html#about" >about</a></button>
+                        <button onclick="onToggleEditor()">Gallery</button>
+                        <button onclick="">Memes</button>
+                        <button onclick="onToggleEditor()" href="#about"><a href="index.html#about" >about</a></button>
                     </div>
                     <button class="btn-menu" onclick="toggleMenu()">☰</button>
                 </div>
@@ -39,22 +39,26 @@
             <div class="gallery-container">
                 <div class="gallery-container main-layout">
 
-                    <div class="gallery-img img-1" onclick="onOpenEditor(this)" id='1'></div>
-                    <div class="gallery-img img-2" onclick="onOpenEditor(this)" id='2'></div>
-                    <div class="gallery-img img-3" onclick="onOpenEditor(this)" id='3'></div>
-                    <div class="gallery-img img-4" onclick="onOpenEditor(this)" id='4'></div>
-                    <div class="gallery-img img-5" onclick="onOpenEditor(this)" id='5'></div>
-                    <div class="gallery-img img-6" onclick="onOpenEditor(this)" id='6'></div>
-                    <div class="gallery-img img-7" onclick="onOpenEditor(this)" id='7'></div>
-                    <div class="gallery-img img-8" onclick="onOpenEditor(this)" id='8'></div>
-                    <div class="gallery-img img-9" onclick="onOpenEditor(this)" id='9'></div>
-                    <div class="gallery-img img-10" onclick="onOpenEditor(this)" id='10'></div>
+                    <div class="gallery-img img-1" onclick="onToggleEditor(this)" id='1'></div>
+                    <div class="gallery-img img-2" onclick="onToggleEditor(this)" id='2'></div>
+                    <div class="gallery-img img-3" onclick="onToggleEditor(this)" id='3'></div>
+                    <div class="gallery-img img-4" onclick="onToggleEditor(this)" id='4'></div>
+                    <div class="gallery-img img-5" onclick="onToggleEditor(this)" id='5'></div>
+                    <div class="gallery-img img-6" onclick="onToggleEditor(this)" id='6'></div>
+                    <div class="gallery-img img-7" onclick="onToggleEditor(this)" id='7'></div>
+                    <div class="gallery-img img-8" onclick="onToggleEditor(this)" id='8'></div>
+                    <div class="gallery-img img-9" onclick="onToggleEditor(this)" id='9'></div>
+                    <div class="gallery-img img-10" onclick="onToggleEditor(this)" id='10'></div>
+                    <div class="gallery-img img-11" onclick="onToggleEditor(this)" id='10'></div>
+                    <div class="gallery-img img-12" onclick="onToggleEditor(this)" id='10'></div>
+                    <div class="gallery-img img-13" onclick="onToggleEditor(this)" id='10'></div>
+                    <div class="gallery-img img-14" onclick="onToggleEditor(this)" id='10'></div>
+                    <div class="gallery-img img-15" onclick="onToggleEditor(this)" id='10'></div>
 
                 </div>
             </div>
 
             <!-- CANVAS -->
-            <!-- <div class="editor-page-container"> -->
             <div class="editor-container main-layout" style="display: none;">
                 <div class="canvas-container">
                     <canvas id="my-canvas"></canvas>
@@ -91,7 +95,6 @@
                                 onchange="onUpdateLine('fill-color',this.value)">
                         </div>
                     </div>
-                    <div class="stickers-container"><div class="sticker-img s1" id='sticker1'></div></div>
 
                     <div class="upload-services">
                         <button onclick="uploadImg()">Upload</button>
@@ -99,19 +102,9 @@
                         <button onclick="onSaveMeme()">Save</button>
                     </div>
 
-
-
                 </div>
             </div>
-
-            <!-- <footer> -->
-            <!-- <div class="footer-container"></div> -->
-            <!-- </footer> -->
-
-            <!-- </div> -->
-            <!-- </div> -->
         </main>
-        <!-- <div class="footer-container"></div> -->
 
 
         <footer>
@@ -124,8 +117,8 @@
                         repudiandae tempore minima perferendis numquam est.</div>
                     <ul class="social-nav clean-list">
                         <li><a class="facebook" href="https://www.facebook.com/oshra.hartuv" target="_blank"><img src="img/nav1.png" /></a></li>
-                        <li><a class="twitter" href="#"><img src="img/nav2.png" /></a></li>
                         <li><a class="in" href="https://www.linkedin.com/in/oshra-hartuv-907b3b202/" target="_blank"><img src="img/nav-3.png"  class="in-img"></a></li>
+                        <li><a class="twitter" href="#"><img src="img/nav2.png" /></a></li>
                     </ul>
                 </div>
             </div>
