@@ -23,6 +23,7 @@ function createMeme(id) {
     selectedImgId: id,
     selectedLineIdx: 0,
     lines: [{}, {}],
+    moveSticker: false
   };
   meme.lines.forEach((line, idx) => {
     line['txt'] = '';

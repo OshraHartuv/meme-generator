@@ -15,6 +15,15 @@ function onInit() {
 function toggleMenu() {
   document.body.classList.toggle('menu-open');
 }
+// function renderStickers() {
+//   // var length = getImgLength();
+//   // for (var i = 1; i < length + 1; i++) {
+//   var img = document.querySelector(`.s1`);
+//   img.style.backgroundImage = `url('img/sticker-${1}.jpg')`;
+//   img.style.backgroundSize = `cover`;
+//   img.style.backgroundPosition = `center center`;
+//   // }
+// }
 
 function renderPhotos() {
   var length = getImgLength();
@@ -59,8 +68,6 @@ function onDeleteLine() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
-  // if (key === 'align-center' || key === 'align-left' || key === 'align-right' || key === 'typeText') alignText(gElCanvas.offsetWidth)
-  // if (key === 'typeText') checkLinesSizes(gElCanvas.width, gElCanvas.height)
   renderCanvas();
 }
 
@@ -71,7 +78,7 @@ function onCloseEditor() {
   elSearch.style.display = 'flex';
   var elGallery = document.querySelector('.gallery-container');
   elGallery.style.display = 'grid';
-  var elFooter= document.querySelector('.about-container');
+  var elFooter = document.querySelector('.about-container');
   elFooter.style.display = 'flex';
   updateGmeme('close');
   toggleMenu();
@@ -85,7 +92,7 @@ function onOpenEditor(elImg) {
   elSearch.style.display = 'none';
   var elGallery = document.querySelector('.gallery-container');
   elGallery.style.display = 'none';
-  var elFooter= document.querySelector('.about-container');
+  var elFooter = document.querySelector('.about-container');
   elFooter.style.display = 'none';
   updateGmeme(elImg.id);
   resizeCanvas();
@@ -154,7 +161,7 @@ function notLoad(img) {
 // RESIZE
 
 function resizeCanvas() {
-  // console.log('resize');
+  console.log('resize');
   if (!getMeme()) return;
   const elCanvasContainer = document.querySelector('.canvas-container');
   const elEditorContainer = document.querySelector('.editor-container');
@@ -175,7 +182,7 @@ function updateRowWidth(line, idx) {
 // *****************
 function onDown(ev) {
   var pos = getEvPos(ev);
-  var meme = getMeme()
+  var meme = getMeme();
   var line = checkLinesPos(pos);
   if (line) renderCanvas();
 }
@@ -226,16 +233,71 @@ function getEvPos(ev) {
   return pos;
 }
 
+// function getClientPos(ev) {
+//   var pos = {
+//     x: ev.clientX,
+//     y: ev.clientY,
+//   };
+//   if (gTouchEvs.includes(ev.type)) {
+//     ev.preventDefault();
+//     ev = ev.changedTouches[0];
+//     pos = {
+//       x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+//       y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+//     };
+//   }
+//   return pos;
+// }
+
+// function onStickerDown(ev) {
+//   var pos = getClientPos(ev);
+//   var img = document.querySelector(`.s1`);
+//   // img.style.backgroundImage = `url('img/sticker-${1}.jpg')`;
+//   // img.style.backgroundSize = `cover`;
+//   // img.style.backgroundPosition = `center center`;
+//   img.style.position = `relative`;
+//   // console.log(img.clientX);
+//   // img.offsetX = pos.x;
+//   var clientRect = img.getBoundingClientRect();
+//   var clientX = clientRect.left;
+//   var clientY = clientRect.top;
+//   if (clientX < pos.x && clientY < pos.y && pos.x < clientX +40 && pos.y < clientY +40)
+//   {img.style.top = `${clientY - pos.y}px`
+//   img.style.right = `${clientX - pos.x}px`}
+//   console.log(clientX, pos.x);
+//   console.log(clientY, pos.y);
+// }
+
+// function onBodyDown(ev) {
+//   var meme = getMeme();
+//   if (!meme || !meme.moveSticker) return;
+// }
+// function onBodyMove(ev) {
+//   var meme = getMeme();
+//   if (!meme || !meme.moveSticker) return;
+// }
+// function onBodyUp(ev) {
+//   var meme = getMeme();
+//   if (!meme || !meme.moveSticker) return;
+// }
+
 function addListeners() {
+  window.addEventListener('resize', resizeCanvas);
   addMouseListeners();
   addTouchListeners();
-  window.addEventListener('resize', resizeCanvas);
 }
 
 function addMouseListeners() {
   gElCanvas.addEventListener('mousemove', onMove);
   gElCanvas.addEventListener('mousedown', onDown);
   gElCanvas.addEventListener('mouseup', onUp);
+  // document.body.addEventListener('mousemove', onBodyMove);
+  // document.body.addEventListener('mousedown', onBodyDown);
+  // document.body.addEventListener('mouseup', onBodyUp);
+  // var elStickerContainer = document.querySelector('.stickers-container');
+  // // elStickerContainer.addEventListener('mousemove', onStickerMove)
+  // elStickerContainer.addEventListener('mousedown', onStickerDown);
+  // // elStickerContainer.addEventListener('mouseup', onStickerUp)
 }
 
 function addTouchListeners() {
