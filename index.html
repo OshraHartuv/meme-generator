@@ -16,11 +16,11 @@
         <header>
             <div class="header-container">
                 <div class="header-container main-layout">
-                    <div class="logo">logo</div>
+                    <div class="logo"><img class="logo-img" src="img/LOGO.png"></div>
                     <div class="nav-container">
                         <button onclick="onCloseEditor()">Gallery</button>
-                        <button onclick="">Memes</button>
-                        <button onclick="">About<a href="#" onclick="check()"></a></button>
+                        <button onclick="onShowMemes()">Memes</button>
+                        <button onclick="onCloseEditor()" href="#about"><a href="index.html#about" >about</a></button>
                     </div>
                     <button class="btn-menu" onclick="toggleMenu()">☰</button>
                 </div>
@@ -64,9 +64,9 @@
                         <input class="meme-text" placeholder="Enter meme text"
                             oninput="onUpdateLine('typeText',this.value)">
                         <div class="line-editors">
-                            <button onclick="onUpdateLine('textUp')">🡩</button>
-                            <button onclick="onUpdateLine('textDown')">🡫</button>
-                            <button onclick="onSwitchLines()">⮃</button>
+                            <button onclick="onUpdateLine('textUp')">&#8593;</button>
+                            <button onclick="onUpdateLine('textDown')">&#8595;</button>
+                            <button onclick="onSwitchLines()">&#8693;</button>
                             <button onclick="onAddLine()">+</button>
                             <button onclick="onDeleteLine()">🗑</button>
                         </div>
@@ -75,14 +75,13 @@
                         <div class="text-size-align">
                             <button onclick="onUpdateLine('increaseFont')">a+</button>
                             <button onclick="onUpdateLine('decreaseFont')">a-</button>
-                            <button onclick="onUpdateLine('align-left')">l</button>
-                            <button onclick="onUpdateLine('align-center')">c</button>
-                            <button onclick="onUpdateLine('align-right')">r</button>
+                            <button class="left" onclick="onUpdateLine('align-left')">l</button>
+                            <button class="center" onclick="onUpdateLine('align-center')">c</button>
+                            <button class="rigth" onclick="onUpdateLine('align-right')">r</button>
                         </div>
                         <div class="text-family-color">
                             <select name="font-family" id="font-family"
-                                onchange="onUpdateLine('font-family',this.value)" class="family-select" >
-                                <!-- <option value="" disabled>font-family</option> -->
+                                onchange="onUpdateLine('font-family',this.value)" class="family-select">
                                 <option value="" disabled selected>Font Family</option>
                                 <option value="impact">Impact</option>
                                 <option value="Ariel">Ariel</option>
@@ -92,55 +91,55 @@
                                 onchange="onUpdateLine('fill-color',this.value)">
                         </div>
                     </div>
-                    <!-- <div class="stickers"></div> -->
+                    <div class="stickers-container"><div class="sticker-img s1" id='sticker1'></div></div>
+
                     <div class="upload-services">
-                        <button>Upload</button>
-                        <!-- <button  class="btn" onclick="downloadImg(this)"><span>Download</span></button>  -->
-                        <!-- <a class="btn" onclick="downloadImg(this)">Download (jpeg)</a> -->
+                        <button onclick="uploadImg()">Upload</button>
                         <button><a href="#" onclick="downloadImg(this)" download="my-img.jpeg">Download</a></button>
-                        <button>Save</button>
-                        <!-- <button href="#" class="download" onclick="downloadImg(this)">Download</button> -->
-                        <!--  -->
+                        <button onclick="onSaveMeme()">Save</button>
                     </div>
+
 
 
                 </div>
             </div>
-            
+
             <!-- <footer> -->
             <!-- <div class="footer-container"></div> -->
-        <!-- </footer> -->
-            
-        <!-- </div> -->
-    <!-- </div> -->
+            <!-- </footer> -->
+
+            <!-- </div> -->
+            <!-- </div> -->
         </main>
-        <!-- <footer>
-            <div class="footer-container"></div>
-        </footer> -->
+        <!-- <div class="footer-container"></div> -->
 
 
-    <!-- <div class="about-container">
-                <div class="about-img"><img  class="my-img" src="img/2.jpg"></div>
+        <footer>
+            <div class="about-container" name="about" id="about">
+                <div class="about-img"><img class="my-img" src="img/tinto.jpg"></div>
                 <div class="about-content">
                     <div class="about-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae nisi, neque
-                        iure at aliquid quasi laborum facilis voluptatem nostrum facere officiis ducimus incidunt! Ullam,
+                        iure at aliquid quasi laborum facilis voluptatem nostrum facere officiis ducimus incidunt!
+                        Ullam,
                         repudiandae tempore minima perferendis numquam est.</div>
-                        <ul class="social-nav clean-list">
-                            <li><a class="Facebook" href="#"><img src="img/nav1.png" /></a></li>
-                            <li><a class="Twitter" href="#"><img src="img/nav2.png" /></a></li>
-                            <li><a class="Be" href="#"><img src="img/nav3.png" /></a></li>
-                        </ul>
-                    </div>
-                </div> -->
-    <!-- </div> -->
+                    <ul class="social-nav clean-list">
+                        <li><a class="facebook" href="https://www.facebook.com/oshra.hartuv" target="_blank"><img src="img/nav1.png" /></a></li>
+                        <li><a class="twitter" href="#"><img src="img/nav2.png" /></a></li>
+                        <li><a class="in" href="https://www.linkedin.com/in/oshra-hartuv-907b3b202/" target="_blank"><img src="img/nav-3.png"  class="in-img"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+                    
+                    
+                    
+    </div>
 
 
-
-    <!-- </div> -->
-
-
-    <script src="js/controller.js"></script>
-    <script src="js/services/meme-service.js"></script>
+            <script src="js/controller.js"></script>
+            <!-- <script src="js/services/uplaod-service.js"><xcx/script> -->
+            <script src="js/services/storage-service.js"></script>
+            <script src="js/services/meme-service.js"></script>
 </body>
 
 </html>

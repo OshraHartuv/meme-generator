@@ -2,6 +2,7 @@
 
 var gElCanvas;
 var gCtx;
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 
 function onInit() {
   createMemes();
@@ -17,7 +18,6 @@ function toggleMenu() {
 
 function renderPhotos() {
   var length = getImgLength();
-  // var elContainer = document.querySelector('.gallery-container .main-layout')
   for (var i = 1; i < length + 1; i++) {
     var img = document.querySelector(`.img-${i}`);
     img.style.backgroundImage = `url('img/${i}.jpg')`;
@@ -59,30 +59,34 @@ function onDeleteLine() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
+  // if (key === 'align-center' || key === 'align-left' || key === 'align-right' || key === 'typeText') alignText(gElCanvas.offsetWidth)
+  // if (key === 'typeText') checkLinesSizes(gElCanvas.width, gElCanvas.height)
   renderCanvas();
 }
 
-
-function onCloseEditor(){
+function onCloseEditor() {
   var elSearch = document.querySelector('.editor-container');
   elSearch.style.display = 'none';
   var elSearch = document.querySelector('.search-container');
   elSearch.style.display = 'flex';
   var elGallery = document.querySelector('.gallery-container');
   elGallery.style.display = 'grid';
-  updateGmeme('close')
-  toggleMenu()
+  var elFooter= document.querySelector('.about-container');
+  elFooter.style.display = 'flex';
+  updateGmeme('close');
+  toggleMenu();
 }
 
 // FIRST OPEN
 function onOpenEditor(elImg) {
   var elSearch = document.querySelector('.editor-container');
   elSearch.style.display = 'grid';
-  // // document.body.classList.toggle('editor-open')
   var elSearch = document.querySelector('.search-container');
   elSearch.style.display = 'none';
   var elGallery = document.querySelector('.gallery-container');
   elGallery.style.display = 'none';
+  var elFooter= document.querySelector('.about-container');
+  elFooter.style.display = 'none';
   updateGmeme(elImg.id);
   resizeCanvas();
 }
@@ -104,12 +108,13 @@ function changeTextOnCanvas() {
           elTextInput.placeholder = 'Type line text here';
           elTextInput.value = '';
         } else elTextInput.value = `${text}`;
-        // text is out of canvas (type text)
+        // text too wide for canvas (type text)
         if (line.width > gElCanvas.offsetWidth - 10) {
           updateLine('decreaseFont');
           renderCanvas();
         }
-        alignText(gElCanvas.offsetWidth);
+        if (!line.isClick) alignText(gElCanvas.offsetWidth);
+        else checkLinesSizes(gElCanvas.width, gElCanvas.height);
       } else if (line.y === 'init') {
         updateLine('initY', gElCanvas.offsetWidth);
         line = getMeme().lines[1];
@@ -157,7 +162,7 @@ function resizeCanvas() {
   elEditorContainer.height = elCanvasContainer.offsetHeight;
   gElCanvas.width = elCanvasContainer.offsetWidth;
   gElCanvas.height = elCanvasContainer.offsetHeight;
-  updateLinesSizes(gElCanvas.width, gElCanvas.height);
+  checkLinesSizes(gElCanvas.width, gElCanvas.height);
   renderCanvas();
 }
 
@@ -168,6 +173,42 @@ function updateRowWidth(line, idx) {
 }
 
 // *****************
+function onDown(ev) {
+  var pos = getEvPos(ev);
+  var meme = getMeme()
+  var line = checkLinesPos(pos);
+  if (line) renderCanvas();
+}
+
+function onMove(ev) {
+  var pos = getEvPos(ev);
+  // if (!getMeme().isClick) return;
+  var meme = getMeme();
+  if (
+    !meme.lines.length ||
+    meme.selectedLineIdx === 'none' ||
+    !meme.lines[meme.selectedLineIdx].isClick
+  )
+    return;
+  else if (
+    pos.x === gElCanvas.width ||
+    pos.y === gElCanvas.height ||
+    !pos.y ||
+    !pos.x
+  ) {
+    onUp();
+  } else {
+    var line = checkLinesPos(pos);
+    if (line) {
+      moveClickedLine(pos);
+      renderCanvas();
+    }
+  }
+}
+
+function onUp() {
+  updateNoClick();
+}
 
 function getEvPos(ev) {
   var pos = {
@@ -186,8 +227,8 @@ function getEvPos(ev) {
 }
 
 function addListeners() {
-  //   addMouseListeners();
-  //   addTouchListeners();
+  addMouseListeners();
+  addTouchListeners();
   window.addEventListener('resize', resizeCanvas);
 }
 

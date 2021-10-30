@@ -5,115 +5,81 @@ var gKeywords = { happy: 12, 'funny puk': 1 };
 var gImgs = [
   { id: 1, url: 'img/1.jpg', keywords: ['trump'] },
   { id: 2, url: 'img/2.jpg', keywords: ['dogs'] },
-  { id: 3, url: 'img/3.jpg', keywords: ['dogs'] },
-  { id: 4, url: 'img/4.jpg', keywords: ['dogs'] },
-  { id: 5, url: 'img/5.jpg', keywords: ['dogs'] },
-  { id: 6, url: 'img/6.jpg', keywords: ['dogs'] },
-  { id: 7, url: 'img/7.jpg', keywords: ['dogs'] },
-  { id: 8, url: 'img/8.jpg', keywords: ['dogs'] },
-  { id: 9, url: 'img/9.jpg', keywords: ['dogs'] },
-  { id: 10, url: 'img/10.jpg', keywords: ['dogs'] },
+  { id: 3, url: 'img/3.jpg', keywords: ['dogs' ,'baby'] },
+  { id: 4, url: 'img/4.jpg', keywords: ['cat'] },
+  { id: 5, url: 'img/5.jpg', keywords: ['baby'] },
+  { id: 6, url: 'img/6.jpg', keywords: ['man'] },
+  { id: 7, url: 'img/7.jpg', keywords: ['baby'] },
+  { id: 8, url: 'img/8.jpg', keywords: ['man'] },
+  { id: 9, url: 'img/9.jpg', keywords: ['baby'] },
+  { id: 10, url: 'img/10.jpg', keywords: ['man'] },
 ];
 
-
 var gMemes = [];
-// var gMemes = [
-//   {
-//     selectedImgId: 1,
-//     selectedLineIdx: 0,
-//     // isExport: false,
-//     lines: [
-//       {
-//         txt: 'I know',
-//         size: 20,
-//         fillColor: 'white',
-//         strokeColor: 'black',
-//         align: 'left',
-//         'font-family': 'impact',
-//         x: 10,
-//         y: 50,
-//         width: 0,
-//       },
-//       {
-//         txt: 'you',
-//         size: 20,
-//         fillColor: 'white',
-//         strokeColor: 'black',
-//         align: 'left',
-//         'font-family': 'impact',
-//         x: 10,
-//         y: 'init',
-//         width: 0,
-//       },
-//     ],
-//   },
-//   {
-//     selectedImgId: 2,
-//     selectedLineIdx: 0,
-//     // isExport: false,
-//     lines: [
-//       {
-//         txt: 'I never eat Falafel',
-//         size: 20,
-//         fillColor: 'white',
-//         strokeColor: 'black',
-//         align: 'left',
-//         'font-family': 'impact',
-//         x: 10,
-//         y: 50,
-//         width: 0,
-//       },
-//       {
-//         txt: 'I love falafel',
-//         size: 20,
-//         fillColor: 'white',
-//         strokeColor: 'black',
-//         align: 'left',
-//         'font-family': 'impact',
-//         x: 10,
-//         y: 'init',
-//         width: 0,
-//       },
-//     ],
-//   },
-// ];
-
 var gMeme;
-
-// createMeme()
 
 function createMeme(id) {
   var meme = {
     selectedImgId: id,
     selectedLineIdx: 0,
-    lines: [{}, {}]
+    lines: [{}, {}],
   };
   meme.lines.forEach((line, idx) => {
     line['txt'] = '';
     line['size'] = 30;
     line['fillColor'] = 'white';
     line['strokeColor'] = 'black';
-    line['align'] = 'center';
+    line['align'] = 'left';
     line['font-family'] = 'impact';
     line['width'] = 0;
     line['x'] = 10;
+    line['isClick'] = false;
     if (idx === 0) line['y'] = 50;
     else line['y'] = 'init';
   });
   // console.log(meme);
-  return meme
+  return meme;
 }
 
-function getImgLength(){
-  return gImgs.length
+function updateNoClick() {
+  gMeme.isClick = false;
+  gMeme.lines[gMeme.selectedLineIdx].isClick = false;
+}
+
+function moveClickedLine(pos) {
+  var lineClicked = gMeme.lines[gMeme.selectedLineIdx];
+  lineClicked.x = pos.x - lineClicked.width / 2;
+  lineClicked.y = pos.y + lineClicked.size / 2;
+}
+
+function checkLinesPos(pos) {
+  var clickedLine = gMeme.lines.find((line) => {
+    var xStart = line.x;
+    var xEnd = line.width + line.x;
+    var yEnd = line.y;
+    var yStart = line.y - line.size;
+    if (pos.x <= xEnd && pos.x >= xStart && pos.y >= yStart && pos.y <= yEnd)
+      return line;
+  });
+  if (clickedLine) {
+    var idx = gMeme.lines.findIndex((line) => {
+      return line === clickedLine;
+    });
+    gMeme.selectedLineIdx = idx;
+    gMeme.lines[idx].isClick = true;
+  }
+  return clickedLine;
+}
+
+function getImgLength() {
+  return gImgs.length;
 }
 
 function createMemes() {
-for (var i =0; i < gImgs.length; i++){
-  var meme = createMeme(i+1)
-  gMemes.push(meme)
-  // console.log(gMemes);
-}
+  for (var i = 0; i < gImgs.length; i++) {
+    var meme = createMeme(i + 1);
+    gMemes.push(meme);
+  }
 }
 
 function deleteLine() {
@@ -139,24 +105,39 @@ function addLine(CanvasHeight) {
   console.log(gMeme.selectedLineIdx);
 }
 
-function updateLinesSizes(CanvasWidth, CanvasHeight) {
+function checkLinesSizes(CanvasWidth, CanvasHeight) {
   gMeme.lines.forEach((line, idx) => {
-    // if text is too wide
-    if (line.width + 20 > CanvasWidth) {
-      line.size -= 10;
-      line.x = 10;
-      updateRowWidth(line, idx);
-      updateLinesSizes(CanvasWidth, CanvasHeight);
+    if (!line.isClick) {
+      // RESIZE
+      // if text is too wide
+      if (line.width + 20 > CanvasWidth) {
+        line.size -= 5;
+        line.x = 10;
+        updateRowWidth(line, idx);
+        checkLinesSizes(CanvasWidth, CanvasHeight);
+      }
+      // text is too big
+      else if (line.size > CanvasHeight) {
+        line.size = CanvasHeight - 10;
+      }
     }
+
     // text is too low
     if (line.y > CanvasHeight - 10) {
       line.y = CanvasHeight - 10;
     }
-    // text is too big
-    if (line.size > CanvasHeight) {
-      line.size = CanvasHeight - 10;
+    // text is too high
+    if (line.y < line.size) line.y = line.size + 5;
+
+    // line is too left
+    if (line.width + line.x > CanvasWidth)
+    line.x = CanvasWidth - line.width - 10;
+    if (line.isClick) {
+      // line is too right
+      if (line.x < 10) line.x = 10;
     }
-    alignText(line.align, idx);
+
+    // alignText(line.align, idx);
   });
 }
 
@@ -199,7 +180,7 @@ function updateLine(key, value, idx = null) {
       break;
 
     case 'decreaseFont':
-      line.size -= line.size > 10 ? 10 : 0;
+      line.size -= line.size > 10 ? 5 : 0;
       break;
 
     case 'increaseFont':
@@ -213,7 +194,7 @@ function updateLine(key, value, idx = null) {
 
     case 'width':
       // value is gCtx.measureText(text).width, idx
-      line.width = value;
+      line.width = value ? value : 20;
       break;
 
     case 'font-family':
@@ -258,7 +239,9 @@ function updateSelectedLineIdx(value = null) {
     return;
   } else if (value === 'none') {
     gMeme.selectedLineIdx = 'none';
-    console.log(gMeme.selectedLineIdx);
+    // console.log(gMeme.selectedLineIdx);
+  // } else if (typeof value === 'number') {
+  //   gMeme.selectedLineIdx = value;
   } else if (
     gMeme.selectedLineIdx === 'none' ||
     gMeme.selectedLineIdx === gMeme.lines.length - 1 ||
@@ -282,11 +265,12 @@ function getMeme() {
 }
 
 function updateGmeme(elImgId) {
-  if (elImgId === 'close') {gMeme =null
-    return}
+  if (elImgId === 'close') {
+    gMeme = null;
+    return;
+  }
   var currMeme = gMemes.find((meme) => {
     return `${meme.selectedImgId}` === elImgId;
   });
-    gMeme = currMeme;
-    console.log(currMeme);
+  gMeme = currMeme;
 }
