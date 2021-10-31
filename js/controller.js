@@ -8,9 +8,30 @@ function onInit() {
   gElCanvas = document.getElementById('my-canvas');
   gCtx = gElCanvas.getContext('2d');
   createGImgs(15);
-  createMemes(15);
-  renderPhotos();
+  createMemes();
+  renderGallery();
   addListeners();
+}
+
+function onShowSaved() {
+  onHideEditor()
+  var galleryContainer = document.querySelector('.gallery-container.main-layout');
+  var memes = loadSavedMemes();
+  var strHtml = ``;
+  memes.forEach((meme,idx )=> {
+  var img = new Image();
+  img.src = meme;
+  strHtml += `<div class="meme-img img-${idx+1}" id='meme-${idx+1}' style="background-image:url(${meme}) ; background-size: cover; background-position: center center;"></div>`;
+  })
+  galleryContainer.innerHTML = strHtml;
+}
+
+function onSaveMeme() {
+  updateSelectedLineIdx('none');
+  renderCanvas();
+  saveMeme(gElCanvas);
+  loadSavedMemes();
+  console.log(loadSavedMemes());
 }
 
 function toggleMenu() {
@@ -35,59 +56,58 @@ function onDeleteLine() {
 function onUpdateLine(key, value = null) {
   if (key === 'textDown') value = gElCanvas.offsetHeight;
   updateLine(key, value);
-  if (
-    key === 'align-right' ||
-    key === 'align-left' ||
-    key === 'align-center'
-  ) {
+  if (key === 'align-right' || key === 'align-left' || key === 'align-center') {
     alignText(gElCanvas.offsetWidth);
   } else if (key === 'typeText') {
-    var meme = getMeme()
-    updateRowWidth(meme.lines[meme.selectedLineIdx], meme.selectedLineIdx)
+    var meme = getMeme();
+    updateRowWidth(getCurrLine(), getCurrLineIdx());
     checkLinesSizes(gElCanvas.offsetWidth, gElCanvas.offsetHeight);
   }
   renderCanvas();
 }
 
-function onToggleEditor(elImg = null) {
+function onHideEditor() {
   var elEditor = document.querySelector('.editor-container');
   var elSearch = document.querySelector('.search-container');
   var elGallery = document.querySelector('.gallery-container');
   var elFooter = document.querySelector('.about-container');
-  if (elImg) {
-    elEditor.style.display = 'grid';
-    elSearch.style.display = 'none';
-    elGallery.style.display = 'none';
-    elFooter.style.display = 'none';
-    updateGmeme(elImg.id);
-    resizeCanvas();
-  } else {
-    elEditor.style.display = 'none';
-    elFooter.style.display = 'flex';
-    elGallery.style.display = 'grid';
-    elSearch.style.display = 'flex';
-    updateGmeme('close');
-    toggleMenu();
-  }
+  elEditor.style.display = 'none';
+  elFooter.style.display = 'flex';
+  elGallery.style.display = 'grid';
+  elSearch.style.display = 'flex';
+  updateGmeme('close');
+  toggleMenu();
 }
 
-// CHANGE TEXT
+function onShowEditor(elImg = null) {
+  var elEditor = document.querySelector('.editor-container');
+  var elSearch = document.querySelector('.search-container');
+  var elGallery = document.querySelector('.gallery-container');
+  var elFooter = document.querySelector('.about-container');
+  elEditor.style.display = 'grid';
+  elSearch.style.display = 'none';
+  elGallery.style.display = 'none';
+  elFooter.style.display = 'none';
+  updateGmeme(elImg.id);
+  resizeCanvas();
+}
+
 function changeTextOnCanvas() {
   var meme = getMeme();
   gCtx.lineWidth = 2;
   var elTextInput = document.querySelector('.meme-text');
   if (meme.lines.length) {
     meme.lines.forEach((line, idx) => {
-      var text = line.txt;
+      var txt = line.txt;
       gCtx.strokeStyle = `${line.strokeColor}`;
       gCtx.fillStyle = `${line.fillColor}`;
       gCtx.font = `${line.size}px ${line['font-family']}`;
-      updateLine('width', gCtx.measureText(text).width, idx);
-      if (idx === meme.selectedLineIdx) {
-        if (!text) {
+      updateLine('width', gCtx.measureText(txt).width, idx);
+      if (idx === getCurrLineIdx()) {
+        if (!txt) {
           elTextInput.placeholder = 'Type line text here';
           elTextInput.value = '';
-        } else elTextInput.value = `${text}`;
+        } else elTextInput.value = `${txt}`;
         // text too wide for canvas (type text)
         if (line.width > gElCanvas.offsetWidth - 10) {
           updateLine('decreaseFont');
@@ -101,8 +121,8 @@ function changeTextOnCanvas() {
         elTextInput.placeholder = 'no line selected';
         elTextInput.value = '';
       }
-      gCtx.fillText(`${text}`, line.x, line.y);
-      gCtx.strokeText(`${text}`, line.x, line.y);
+      gCtx.fillText(`${txt}`, line.x, line.y);
+      gCtx.strokeText(`${txt}`, line.x, line.y);
     });
     return;
   }
@@ -133,14 +153,22 @@ function renderCanvas() {
   };
 }
 
-function renderPhotos() {
-  var length = getImgsLength();
-  for (var i = 1; i < length + 1; i++) {
-    var img = document.querySelector(`.img-${i}`);
-    img.style.backgroundImage = `url('img/${i}.jpg')`;
-    img.style.backgroundSize = `cover`;
-    img.style.backgroundPosition = `center center`;
-  }
+function renderGallery() {
+  var imgs = getGImgs();
+  var galleryContainer = document.querySelector(
+    '.gallery-container.main-layout'
+  );
+  var strHtml = ``;
+  imgs.forEach((img, idx) => {
+    strHtml += `<div class="gallery-img img-${
+      idx + 1
+    }" onclick="onShowEditor(this)" id='${
+      idx + 1
+    }' style="background-image:url('img/${
+      idx + 1
+    }.jpg') ; background-size: cover; background-position: center center;"></div>`;
+  });
+  galleryContainer.innerHTML = strHtml;
 }
 
 function resizeCanvas() {
@@ -162,21 +190,23 @@ function updateRowWidth(line, idx) {
 
 function onDown(ev) {
   var pos = getEvPos(ev);
-  var meme = getMeme();
+  // var meme = getMeme();
+  // meme.isClick = true;
   var line = getLineByPos(pos);
   if (line) renderCanvas();
 }
 
 function onMove(ev) {
   var pos = getEvPos(ev);
+  console.log();
   var meme = getMeme();
   if (
     !meme.lines.length ||
-    meme.selectedLineIdx === 'none' ||
-    !meme.lines[meme.selectedLineIdx].isClick
-  )
+    getCurrLineIdx() === 'none' ||
+    !getCurrLine().isClick
+  ) {
     return;
-  else if (
+  } else if (
     pos.x === gElCanvas.width ||
     pos.y === gElCanvas.height ||
     !pos.y ||
@@ -192,7 +222,8 @@ function onMove(ev) {
   }
 }
 
-function onUp(ev) {
+function onUp() {
+  console.log('up');
   updateNoClick();
 }
 

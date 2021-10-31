@@ -4,6 +4,19 @@ var gImgs = [];
 var gMemes = [];
 var gMeme;
 
+
+function saveMeme(canvas){
+  const data = canvas.toDataURL('image/jpeg/png');
+  var memes = loadSavedMemes()
+  if (!memes) saveToStorage('savedMemes', [data]) 
+  else{ memes.push(data)
+    saveToStorage('savedMemes', memes) }
+}
+
+function loadSavedMemes(){
+  return loadFromStorage('savedMemes')
+}
+
 function createGImgs(length){
   for (var i = 1 ; i < length +1 ; i ++ ){
     var img = { id: i, url: `img/${i}.jpg`}
@@ -64,15 +77,11 @@ function getLineByPos(pos) {
   return clickedLine;
 }
 
-function getImgsLength() {
-  return gImgs.length;
-}
-
-function createMemes(length) {
-  for (var i = 1; i < length +1; i++) {
-    var meme = createMeme(i);
+function createMemes() {
+  gImgs.forEach((img,idx) => {
+    var meme = createMeme(idx+1);
     gMemes.push(meme);
-  }
+  })
 }
 
 function deleteLine() {
@@ -245,12 +254,9 @@ function getUrlByMeme(meme) {
   return img.url;
 }
 
-function getMeme() {
-  return gMeme;
-}
-
 function updateGmeme(elImgId) {
   if (elImgId === 'close') {
+    if (!gMeme) return
     var cleanMeme = createMeme(gMeme.selectedImgId);
     var idx = gMemes.findIndex((meme) => {
       return meme.selectedImgId === gMeme.selectedImgId;
@@ -264,3 +270,20 @@ function updateGmeme(elImgId) {
   });
   gMeme = currMeme;
 }
+
+function getMeme() {
+  return gMeme;
+}
+
+function getCurrLineIdx(){
+  return gMeme.selectedLineIdx
+}
+
+function getCurrLine(){
+  return gMeme.lines[gMeme.selectedLineIdx]
+}
+
+function getGImgs(){
+  return gImgs
+}
+
