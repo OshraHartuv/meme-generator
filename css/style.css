@@ -19,6 +19,13 @@ body {
   align-items: center;
 }
 
+.app-layout {
+  /* position: relative; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* HEADER */
 
 .header-container {
@@ -59,7 +66,7 @@ body {
   align-items: center;
 }
 
-.nav-container >*{
+.nav-container > * {
   flex-grow: 1;
   flex-shrink: 1;
   /* width: 100%; */
@@ -70,17 +77,33 @@ body {
   height: 5vh;
 }
 
-.nav-container > *:hover {
+.nav-container > *:hover,
+.nav-container > * > a:hover {
   color: black;
   cursor: pointer;
 }
 
 /* SEARCH */
 
+.keywords-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 2;
+}
+
+.keywords-container >*:hover{
+  color: #ff7f00;
+  cursor: pointer;
+}
+
 .search-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-grow: 1;
+}
+
+.search-container.main-layout{
   margin-top: 5vh;
 }
 
@@ -103,6 +126,10 @@ body {
 
 /* GALLERY */
 
+main {
+  flex-grow: 1;
+}
+
 .gallery-container {
   background-color: #e3e3e3;
 }
@@ -118,10 +145,15 @@ body {
   gap: 2.5vw;
 }
 
-.gallery-img, .meme-img {
+.gallery-img,
+.meme-img {
   border: 1px solid #ccc;
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
   width: 100%;
+}
+
+h1 {
+  text-align: center;
 }
 
 /* CANVAS */
@@ -287,19 +319,18 @@ body.menu-open .main-screen {
 /* ABOUT */
 footer {
   background-color: #ff7f00;
-  /* position: absolute;
-  bottom: 0;right: 0;
-  width: 100vw; */
+  bottom: 0;
+  margin-top: 10px;
 }
 
 .about-container {
   display: flex;
   /* margin-top:; */
   width: 60vw;
-  margin: 20vh auto 0 auto;
+  margin: 0 auto 0 auto;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding-top: 10px;
 }
 
 .my-img {
@@ -450,7 +481,7 @@ footer {
     justify-content: center;
   }
 
-  .nav-container >*{
+  .nav-container > * {
     width: 100%;
   }
 
@@ -471,15 +502,15 @@ footer {
     grid-auto-rows: 30vw;
   }
   .social-nav > *,
-.social-nav > * > * {
-  height: 30px;
-  width: 30px;
-}
+  .social-nav > * > * {
+    height: 30px;
+    width: 30px;
+  }
 
-.in-img {
-  height: 30px;
-  width: 30px;
-}
+  .in-img {
+    height: 30px;
+    width: 30px;
+  }
   .main-header {
     position: static;
     display: flex;
@@ -513,7 +544,7 @@ footer {
     gap: 5vw;
   }
 
-  .search-container {
+  .search-container.main-layout{
     margin-top: 2vh;
   }
 

@@ -30,9 +30,17 @@
 
         <main>
             <div class="search-container main-layout">
-                <div class="search-input">
+                <div class="search-container">
                     <input type="text" class="search-input" placeholder="Search">
-                    <button onclick="" class="search-btn">🔍</button>
+                    <button onclick="onSearch()" class="search-btn" >🔍</button>
+                </div>
+                <div class="keywords-container">
+                    <p class="key man">man</p>
+                    <p class="key trump">trump</p>
+                    <p class="key dog">dog</p>
+                    <p class="key baby">baby</p>
+                    <p class="key cat">cat</p>
+                    <p class="key obama">obama</p>
                 </div>
             </div>
 
@@ -41,7 +49,6 @@
                 </div>
             </div>
 
-            <!-- CANVAS -->
             <div class="editor-container main-layout" style="display: none;">
                 <div class="canvas-container">
                     <canvas id="my-canvas"></canvas>
@@ -80,13 +87,14 @@
                     </div>
 
                     <div class="upload-services">
-                        <button onclick="uploadImg()">Upload</button>
-                        <button><a href="#" onclick="downloadImg(this)" download="my-img.jpeg">Download</a></button>
-                        <button onclick="onSaveMeme()">Save</button>
+                        <button class="upload-btn" onclick="onUploadImg()">Upload</button>
+                        <button onclick="onDownloadImg()">Download</button>
+                        <button onclick="onSaveMeme(this)">Save</button>
                     </div>
-
+                    <!-- < class="share-container"></div></div> -->
                 </div>
             </div>
+            <button class="share-btn" style="display: none;"></button>
         </main>
 
 
@@ -115,7 +123,8 @@
 
 
     <script src="js/controller.js"></script>
-    <!-- <script src="js/services/uplaod-service.js"><xcx/script> -->
+    <script src="js/services/util.js"></script>
+    <script src="js/services/uplaod-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
 </body>
