@@ -18,7 +18,7 @@
                 <div class="header-container main-layout">
                     <div class="logo"><img class="logo-img" src="img/LOGO.png"></div>
                     <div class="nav-container">
-                        <button onclick="renderGallery()">Gallery</button>
+                        <button onclick="onHideEditor()">Gallery</button>
                         <button onclick="onShowSaved()">Memes</button>
                         <button onclick="onHideEditor()" href="#about"><a href="index.html#about">about</a></button>
                     </div>
@@ -35,12 +35,6 @@
                     <button onclick="onSearch()" class="search-btn" >🔍</button>
                 </div>
                 <div class="keywords-container" >
-                    <!-- <p class="key man" onclick="onSetImgByKey('man',this)">man</p>
-                    <p class="key trump">trump</p>
-                    <p class="key dog">dog</p>
-                    <p class="key baby">baby</p>
-                    <p class="key cat">cat</p>
-                    <p class="key obama">obama</p> -->
                 </div>
             </div>
 
@@ -85,11 +79,13 @@
                                 onchange="onUpdateLine('fill-color',this.value)">
                         </div>
                     </div>
-
+                    <!-- <div class="stickers-container">
+                        <div class="sticker"><img class="sticker-img s1"  src="img/sticker-1.jpg" ></div>
+                    </div> -->
                     <div class="upload-services">
                         <button class="upload-btn" onclick="onUploadImg()">Upload</button>
                         <button onclick="onDownloadImg()">Download</button>
-                        <button onclick="onSaveMeme(this)">Save</button>
+                        <button class="save-btn" onclick="onSaveMeme()">Save</button>
                     </div>
                     <!-- < class="share-container"></div></div> -->
                 </div>

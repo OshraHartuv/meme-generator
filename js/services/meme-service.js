@@ -4,6 +4,7 @@ var gImgs = [];
 var gMemes = [];
 var gMeme;
 var gKeywords = {};
+var gStickers = [{class: 's1', isDrag:false}];
 
 // UPLOAD & SAVE
 function saveMeme(canvas) {

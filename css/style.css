@@ -392,6 +392,13 @@ footer {
   list-style-type: none;
 }
 
+/* STICKERS */
+
+.sticker-img{
+  height: 50px;
+  width: 50px;
+}
+
 /* SCREENS */
 /* MOBILE ONLY */
 

@@ -9,7 +9,7 @@ function onInit() {
   gCtx = gElCanvas.getContext('2d');
   createGImgs(15);
   createMemes();
-  renderKeys()
+  renderKeys();
   renderGallery();
   addListeners();
 }
@@ -27,12 +27,12 @@ function onSearch() {
   renderGallery();
 }
 
-function onSetImgByKey(val,elKey){
+function onSetImgByKey(val, elKey) {
   console.log(val);
-  setImgByKey(val)
-  updateKeys(val)
-  renderKeys()
-  renderGallery()
+  setImgByKey(val);
+  updateKeys(val);
+  renderKeys();
+  renderGallery();
 }
 
 // SAVED MEMES
@@ -56,16 +56,9 @@ function onShowSaved() {
   galleryContainer.innerHTML = strHtml;
 }
 
-function onSaveMeme(elBtn) {
+function onSaveMeme() {
   updateSelectedLineIdx('none');
-  renderCanvas();
-  saveMeme(gElCanvas);
-  loadSavedMemes();
-  elBtn.innerText('saved!');
-  setTimeout(() => {
-    elBtn.innerText('save');
-  }, 1000);
-  // console.log(loadSavedMemes());
+  renderCanvas('isSave');
 }
 
 // ROW EDITORS
@@ -109,18 +102,29 @@ function drawLineArea() {
 
 // RENDER
 
-
-function renderKeys(){
-  var keywords = getKeywords()
-  var keysContainer = document.querySelector('.keywords-container')
-  var strHtml = `<p style="font-size: ${(keywords['man'])*2 + 16 }px ;" class="key man" onclick="onSetImgByKey('man',this)">man</p>
-  <p class="key trump" style="font-size: ${(keywords['trump'])*2 + 16 }px ;"  onclick="onSetImgByKey('trump',this)">trump</p>
-  <p class="key dog"style="font-size: ${(keywords['dog'])*2 + 16 }px;"  onclick="onSetImgByKey('dog',this)">dog</p>
-  <p class="key baby" style="font-size: ${(keywords['baby'])*2 + 16 }px;"  onclick="onSetImgByKey('baby',this)">baby</p>
-  <p class="key cat" style="font-size: ${(keywords['cat'])*2 + 16 }px; " onclick="onSetImgByKey('cat',this)">cat</p>
-  <p class="key obama" style="font-size: ${(keywords['obama'])*2 + 16 }px;"  onclick="onSetImgByKey('obama',this)">obama</p>
-  `
-  keysContainer.innerHTML = strHtml
+function renderKeys() {
+  var keywords = getKeywords();
+  var keysContainer = document.querySelector('.keywords-container');
+  var strHtml = `<p style="font-size: ${
+    keywords['man'] * 2 + 16
+  }px ;" class="key man" onclick="onSetImgByKey('man',this)">man</p>
+  <p class="key trump" style="font-size: ${
+    keywords['trump'] * 2 + 16
+  }px ;"  onclick="onSetImgByKey('trump',this)">trump</p>
+  <p class="key dog"style="font-size: ${
+    keywords['dog'] * 2 + 16
+  }px;"  onclick="onSetImgByKey('dog',this)">dog</p>
+  <p class="key baby" style="font-size: ${
+    keywords['baby'] * 2 + 16
+  }px;"  onclick="onSetImgByKey('baby',this)">baby</p>
+  <p class="key cat" style="font-size: ${
+    keywords['cat'] * 2 + 16
+  }px; " onclick="onSetImgByKey('cat',this)">cat</p>
+  <p class="key obama" style="font-size: ${
+    keywords['obama'] * 2 + 16
+  }px;"  onclick="onSetImgByKey('obama',this)">obama</p>
+  `;
+  keysContainer.innerHTML = strHtml;
 }
 
 function renderCanvas(value = null) {
@@ -142,6 +146,15 @@ function renderCanvas(value = null) {
       document.body.appendChild(elLink);
       elLink.click();
       document.body.removeChild(elLink);
+    } else if (value === 'isSave') {
+      var elBtn = document.querySelector('.save-btn')
+      console.log(elBtn);
+      loadSavedMemes();
+      saveMeme(gElCanvas);
+      elBtn.innerHTML = 'saved!';
+      setTimeout(() => {
+        elBtn.innerHTML='save' ;
+      }, 1000);
     }
   };
 }
@@ -229,6 +242,8 @@ function onHideEditor() {
   elSearch.style.display = 'flex';
   updateGmeme('close');
   toggleMenu();
+  createGImgs(15)
+  renderGallery()
 }
 
 function onShowEditor(elImg = null) {
@@ -244,17 +259,16 @@ function onShowEditor(elImg = null) {
   resizeCanvas();
 }
 
-
 // LISTENERS
 
 function onDown(ev) {
-  var pos = getEvPos(ev);
+  var pos = getOffsetPos(ev);
   var line = getLineByPos(pos);
   if (line) renderCanvas();
 }
 
 function onMove(ev) {
-  var pos = getEvPos(ev);
+  var pos = getOffsetPos(ev);
   var meme = getMeme();
   if (
     !meme.lines.length ||
@@ -281,7 +295,15 @@ function onUp() {
   updateNoClick();
 }
 
-function getEvPos(ev) {
+function getClientPos(ev) {
+  var pos = {
+    x: ev.clientX,
+    y: ev.clientY,
+  };
+  return pos;
+}
+
+function getOffsetPos(ev) {
   var pos = {
     x: ev.offsetX,
     y: ev.offsetY,
@@ -307,6 +329,7 @@ function addMouseListeners() {
   gElCanvas.addEventListener('mousemove', onMove);
   gElCanvas.addEventListener('mousedown', onDown);
   gElCanvas.addEventListener('mouseup', onUp);
+  // document.body.addEventListener('mousedown', onBodyDown);
 }
 
 function addTouchListeners() {
@@ -326,3 +349,57 @@ function onUploadImg() {
   updateSelectedLineIdx('none');
   renderCanvas('isExport');
 }
+
+// function getStickerRect(num) {
+//   var elSticker = document.querySelector(`.sticker-img.s${num}`);
+//   console.log(elSticker);
+//   var bodyRect = document.body.getBoundingClientRect(),
+//     canvasRect = elSticker.getBoundingClientRect(),
+//     bottom  = canvasRect.top - bodyRect.top,
+//     left = canvasRect.left - bodyRect.left,
+//     top = bottom  - 50,
+//     right = left + 50;
+//   gStickers[num - 1]['top'] = top;
+//   gStickers[num - 1]['bottom'] = bottom;
+//   gStickers[num - 1]['left'] = left;
+//   gStickers[num - 1]['right'] = right;
+//   return { top, bottom, left, right };
+// }
+
+// function getCanvasRect() {
+//   var bodyRect = document.body.getBoundingClientRect(),
+//     canvasRect = gElCanvas.getBoundingClientRect(),
+//     top = canvasRect.top - bodyRect.top,
+//     left = canvasRect.left - bodyRect.left,
+//     bottom = top + gElCanvas.height,
+//     right = left + gElCanvas.width;
+//   return { top, bottom, left, right };
+// }
+
+// function onBodyDown(ev) {
+//   var pos = getClientPos(ev);
+//   console.log(pos);
+//   var stickerPos = getStickerRect(1);
+//   console.log(stickerPos);
+//   var canvasPos = getCanvasRect();
+//   if (
+//     pos.x < stickerPos.right &&
+//     pos.x > stickerPos.left &&
+//     pos.y > stickerPos.top &&
+//     pos.y < stickerPos.bottom
+//   ) {
+//     console.log('yes');
+//     var top =
+//       // stickerPos.top > pos.y ? stickerPos.top - pos.y : pos.y - stickerPos.top;
+//       stickerPos.bottom - pos.y
+//     var right =
+//       pos.x > stickerPos.bottom
+//         // ? pos.x - stickerPos.bottom
+//         // : stickerPos.bottom - pos.x;
+//         stickerPos.right -pos.x
+//     var elSticker = document.querySelector('.sticker');
+//     var strHtml = `<img class="sticker-img s1"  src="img/sticker-1.jpg" style="position: relative; top: ${top}px ; right:${right}px; "> `;
+//     elSticker.innerHTML = strHtml;
+//   }
+//   // if
+// }
