@@ -9,9 +9,9 @@ function onInit() {
   gCtx = gElCanvas.getContext('2d');
   createGImgs(15);
   createMemes();
+  renderKeys()
   renderGallery();
   addListeners();
-  console.log(gImgs);
 }
 
 // SEARCH
@@ -25,6 +25,14 @@ function onSearch() {
     elInput.value = '';
   }
   renderGallery();
+}
+
+function onSetImgByKey(val,elKey){
+  console.log(val);
+  setImgByKey(val)
+  updateKeys(val)
+  renderKeys()
+  renderGallery()
 }
 
 // SAVED MEMES
@@ -100,6 +108,20 @@ function drawLineArea() {
 }
 
 // RENDER
+
+
+function renderKeys(){
+  var keywords = getKeywords()
+  var keysContainer = document.querySelector('.keywords-container')
+  var strHtml = `<p style="font-size: ${(keywords['man'])*2 + 16 }px ;" class="key man" onclick="onSetImgByKey('man',this)">man</p>
+  <p class="key trump" style="font-size: ${(keywords['trump'])*2 + 16 }px ;"  onclick="onSetImgByKey('trump',this)">trump</p>
+  <p class="key dog"style="font-size: ${(keywords['dog'])*2 + 16 }px;"  onclick="onSetImgByKey('dog',this)">dog</p>
+  <p class="key baby" style="font-size: ${(keywords['baby'])*2 + 16 }px;"  onclick="onSetImgByKey('baby',this)">baby</p>
+  <p class="key cat" style="font-size: ${(keywords['cat'])*2 + 16 }px; " onclick="onSetImgByKey('cat',this)">cat</p>
+  <p class="key obama" style="font-size: ${(keywords['obama'])*2 + 16 }px;"  onclick="onSetImgByKey('obama',this)">obama</p>
+  `
+  keysContainer.innerHTML = strHtml
+}
 
 function renderCanvas(value = null) {
   var meme = getMeme();

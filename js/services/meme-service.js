@@ -25,7 +25,6 @@ function setGKeywords(keywords){
   flattenKeys.map(key=>{
     if (!gKeywords[`${key}`]) gKeywords[`${key}`] = 0
   })
-  console.log(gKeywords);
 }
 
 // CREATE
@@ -296,6 +295,10 @@ function updateClickedLine(clickedLine) {
 
 // GET
 
+function getKeywords(){
+  return gKeywords
+}
+
 function getMeme() {
   return gMeme;
 }
@@ -330,19 +333,20 @@ function getUrlByMeme(meme) {
   return img.url;
 }
 
+function updateKeys(val){
+  if( gKeywords[val] === 5) return
+  gKeywords[val] += 1
+}
+
 function setImgByKey(key) {
   var KeyedImgs = [];
   createGImgs(15)
   for (var i = 0; i < gImgs.length; i++) {
     var isKey = gImgs[i].keywords.find((keyword) => {
-      // console.log(keyword);
       return keyword === key;
     });
-    if (isKey ) {
-      KeyedImgs.push(gImgs[i]);
-    console.log(gImgs[i]);}
+    if (isKey ) KeyedImgs.push(gImgs[i]);
   }
   if (KeyedImgs.length) gImgs = KeyedImgs;
-  // console.log(KeyedImgs);
   return gImgs;
 }
